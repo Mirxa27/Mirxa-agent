@@ -195,7 +195,9 @@ export async function fetchProviderModels(
 	apiKey?: string,
 	signal?: AbortSignal
 ): Promise<string[]> {
-	const url = baseURL.replace(/\/+$/, '') + '/models'
+	let trimmed = baseURL
+	while (trimmed.endsWith('/')) trimmed = trimmed.slice(0, -1)
+	const url = trimmed + '/models'
 	const headers: Record<string, string> = { Accept: 'application/json' }
 	if (apiKey) headers.Authorization = `Bearer ${apiKey}`
 	const res = await fetch(url, { headers, signal })
