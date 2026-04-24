@@ -1,6 +1,6 @@
-# Page Agent Extension API
+# Mirxa Agent Extension API
 
-Integrate the Page Agent extension into your web app and trigger multi-page browser tasks from page JavaScript.
+Integrate the Mirxa Agent extension into your web app and trigger multi-page browser tasks from page JavaScript.
 
 ## Installation
 
@@ -8,16 +8,16 @@ Integrate the Page Agent extension into your web app and trigger multi-page brow
 
 Primary channel:
 
-- Chrome Web Store: https://chromewebstore.google.com/detail/page-agent-ext/akldabonmimlicnjlflnapfeklbfemhj
+- Chrome Web Store: https://chromewebstore.google.com/detail/mirxa-agent-ext/akldabonmimlicnjlflnapfeklbfemhj
 
 Latest updates are often published earlier on:
 
-- GitHub Releases: https://github.com/alibaba/page-agent/releases
+- GitHub Releases: https://github.com/Mirxa27/Mirxa-agent/releases
 
 ### 2. Install type definitions (recommended)
 
 ```bash
-npm install @page-agent/core --save-dev
+npm install @mirxa-agent/core --save-dev
 ```
 
 ### 3. Authorization (Token)
@@ -36,13 +36,13 @@ Setup:
 2. Set the token in your page:
 
 ```typescript
-localStorage.setItem('PageAgentExtUserAuthToken', 'your-token')
+localStorage.setItem('MirxaExtUserAuthToken', 'your-token')
 ```
 
 ## Quick Start
 
 ```typescript
-import type { AgentActivity, AgentStatus, ExecutionResult, HistoricalEvent } from '@page-agent/core'
+import type { AgentActivity, AgentStatus, ExecutionResult, HistoricalEvent } from '@mirxa-agent/core'
 
 // Wait for extension injection (up to 1 second)
 async function waitForExtension(timeout = 1000): Promise<boolean> {
@@ -98,10 +98,10 @@ Stop the current task.
 
 ## Types
 
-Install `@page-agent/core` for complete types:
+Install `@mirxa-agent/core` for complete types:
 
 ```typescript
-import type { AgentActivity, AgentStatus, ExecutionResult, HistoricalEvent } from '@page-agent/core'
+import type { AgentActivity, AgentStatus, ExecutionResult, HistoricalEvent } from '@mirxa-agent/core'
 
 export interface ExecuteConfig {
     baseURL: string
@@ -192,10 +192,10 @@ window.PAGE_AGENT_EXT!.stop()
 
 ## Window Type Declaration
 
-If you are not importing `@page-agent/core`, add:
+If you are not importing `@mirxa-agent/core`, add:
 
 ```typescript
-import type { AgentActivity, AgentStatus, ExecutionResult, HistoricalEvent } from '@page-agent/core'
+import type { AgentActivity, AgentStatus, ExecutionResult, HistoricalEvent } from '@mirxa-agent/core'
 
 interface ExecuteConfig {
     baseURL: string

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-const STATS_URL = 'https://page-agent.github.io/gh-stats/stats.json'
+const STATS_URL = 'https://mirxa-agent.github.io/gh-stats/stats.json'
 
 let cached: number | null = null
 

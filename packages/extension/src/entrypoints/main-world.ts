@@ -1,4 +1,9 @@
-import type { AgentActivity, AgentStatus, ExecutionResult, HistoricalEvent } from '@page-agent/core'
+import type {
+	AgentActivity,
+	AgentStatus,
+	ExecutionResult,
+	HistoricalEvent,
+} from '@mirxa-agent/core'
 
 export type Execute = (task: string, config: ExecuteConfig) => Promise<ExecutionResult>
 

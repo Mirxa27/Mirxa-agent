@@ -1,5 +1,5 @@
 {
-    "name": "@page-agent/ui",
+    "name": "@mirxa-agent/ui",
     "version": "1.8.0",
     "type": "module",
     "main": "./src/index.ts",
@@ -11,35 +11,35 @@
         }
     },
     "publishConfig": {
-        "main": "./dist/lib/page-agent-ui.js",
-        "module": "./dist/lib/page-agent-ui.js",
+        "main": "./dist/lib/mirxa-agent-ui.js",
+        "module": "./dist/lib/mirxa-agent-ui.js",
         "types": "./dist/lib/index.d.ts",
         "exports": {
             ".": {
                 "types": "./dist/lib/index.d.ts",
-                "import": "./dist/lib/page-agent-ui.js",
-                "default": "./dist/lib/page-agent-ui.js"
+                "import": "./dist/lib/mirxa-agent-ui.js",
+                "default": "./dist/lib/mirxa-agent-ui.js"
             }
         }
     },
     "files": [
         "dist/"
     ],
-    "description": "UI components for page-agent - Panel and i18n",
+    "description": "UI components for mirxa-agent - Panel and i18n",
     "keywords": [
-        "page-agent",
+        "mirxa-agent",
         "ui",
         "panel",
         "i18n"
     ],
-    "author": "Simon<gaomeng1900>",
+    "author": "Mirxa27",
     "license": "MIT",
     "repository": {
         "type": "git",
-        "url": "https://github.com/alibaba/page-agent.git",
+        "url": "https://github.com/Mirxa27/Mirxa-agent.git",
         "directory": "packages/ui"
     },
-    "homepage": "https://alibaba.github.io/page-agent/",
+    "homepage": "https://Mirxa27.github.io/Mirxa-agent/",
     "scripts": {
         "build": "vite build",
         "prepublishOnly": "node ../../scripts/pre-publish.js",

@@ -1,4 +1,4 @@
-import type { PageAgent as PageAgentType } from 'page-agent'
+import type { MirxaAgent as MirxaAgentType } from 'mirxa-agent'
 import { useEffect, useState } from 'react'
 import { Link, useSearchParams } from 'wouter'
 
@@ -15,13 +15,13 @@ import {
 } from '../../constants'
 import { useLanguage } from '../../i18n/context'
 
-let pageAgentModule: Promise<typeof import('page-agent')> | null = null
+let mirxaAgentModule: Promise<typeof import('mirxa-agent')> | null = null
 
 function getInjection(useCN?: boolean) {
 	const cdn = useCN ? CDN_DEMO_CN_URL : CDN_DEMO_URL
 
 	const injection = encodeURI(
-		`javascript:(function(){var s=document.createElement('script');s.src=\`${cdn}?t=\${Math.random()}\`;s.setAttribute('crossorigin', true);s.type="text/javascript";s.onload=()=>console.log('PageAgent script loaded!');document.body.appendChild(s);})();`
+		`javascript:(function(){var s=document.createElement('script');s.src=\`${cdn}?t=\${Math.random()}\`;s.setAttribute('crossorigin', true);s.type="text/javascript";s.onload=()=>console.log('MirxaAgent script loaded!');document.body.appendChild(s);})();`
 	)
 
 	return `
@@ -32,7 +32,7 @@ function getInjection(useCN?: boolean) {
 		onclick="return false;"
 		title="Drag me to your bookmarks bar!"
 	>
-		✨PageAgent
+		✨MirxaAgent
 	</a>
 	`
 }
@@ -59,25 +59,25 @@ export default function HeroSection() {
 
 	const [ready, setReady] = useState(false)
 	useEffect(() => {
-		pageAgentModule ??= import('page-agent')
-		pageAgentModule.then(() => setReady(true))
+		mirxaAgentModule ??= import('mirxa-agent')
+		mirxaAgentModule.then(() => setReady(true))
 	}, [])
 
 	const handleExecute = async () => {
-		if (!task.trim() || !ready || !pageAgentModule) return
+		if (!task.trim() || !ready || !mirxaAgentModule) return
 
-		const { PageAgent } = await pageAgentModule
+		const { MirxaAgent } = await mirxaAgentModule
 		const win = window as any
 
-		if (!win.pageAgent || win.pageAgent.disposed) {
-			win.pageAgent = new (PageAgent as typeof PageAgentType)({
+		if (!win.mirxaAgent || win.mirxaAgent.disposed) {
+			win.mirxaAgent = new (MirxaAgent as typeof MirxaAgentType)({
 				interactiveBlacklist: [document.getElementById('root')!],
 				language: language,
 
 				instructions: {
-					system: 'You are a helpful assistant on PageAgent website.',
+					system: 'You are a helpful assistant on MirxaAgent website.',
 					getPageInstructions: (url: string) => {
-						const hint = url.includes('page-agent') ? 'This is PageAgent demo page.' : undefined
+						const hint = url.includes('mirxa-agent') ? 'This is MirxaAgent demo page.' : undefined
 						console.log('[instructions] getPageInstructions:', url, '->', hint)
 						return hint
 					},
@@ -98,7 +98,7 @@ export default function HeroSection() {
 			})
 		}
 
-		const result = await win.pageAgent.execute(task)
+		const result = await win.mirxaAgent.execute(task)
 		console.log(result)
 	}
 
@@ -210,13 +210,13 @@ export default function HeroSection() {
 															: 'Describe what you want AI to do...'
 													}
 													className="w-full px-4 py-3 pr-20 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none text-sm mb-0"
-													data-page-agent-not-interactive
+													data-mirxa-agent-not-interactive
 												/>
 												<button
 													onClick={handleExecute}
 													disabled={!ready}
 													className="absolute right-2 top-2 px-5 py-1.5 bg-linear-to-r from-blue-600 to-purple-600 text-white font-medium rounded-md hover:shadow-md transform hover:scale-105 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none text-sm"
-													data-page-agent-not-interactive
+													data-mirxa-agent-not-interactive
 												>
 													{ready ? (
 														isZh ? (
@@ -236,7 +236,7 @@ export default function HeroSection() {
 													<>
 														使用免费测试 LLM API，点击执行即表示您同意
 														<a
-															href="https://github.com/alibaba/page-agent/blob/main/docs/terms-and-privacy.md#2-testing-api-and-demo-disclaimer--terms-of-use"
+															href="https://github.com/Mirxa27/Mirxa-agent/blob/main/docs/terms-and-privacy.md#2-testing-api-and-demo-disclaimer--terms-of-use"
 															target="_blank"
 															rel="noopener noreferrer"
 															className="underline"
@@ -248,7 +248,7 @@ export default function HeroSection() {
 													<>
 														Powered by free testing LLM API. By clicking Run you agree to the{' '}
 														<a
-															href="https://github.com/alibaba/page-agent/blob/main/docs/terms-and-privacy.md#2-testing-api-and-demo-disclaimer--terms-of-use"
+															href="https://github.com/Mirxa27/Mirxa-agent/blob/main/docs/terms-and-privacy.md#2-testing-api-and-demo-disclaimer--terms-of-use"
 															target="_blank"
 															rel="noopener noreferrer"
 															className="underline"
@@ -329,7 +329,7 @@ export default function HeroSection() {
 															<span>
 																使用免费测试 LLM API，使用即表示同意
 																<a
-																	href="https://github.com/alibaba/page-agent/blob/main/docs/terms-and-privacy.md#2-testing-api-and-demo-disclaimer--terms-of-use"
+																	href="https://github.com/Mirxa27/Mirxa-agent/blob/main/docs/terms-and-privacy.md#2-testing-api-and-demo-disclaimer--terms-of-use"
 																	target="_blank"
 																	rel="noopener noreferrer"
 																	className="text-yellow-700 dark:text-yellow-300 underline"
@@ -341,7 +341,7 @@ export default function HeroSection() {
 															<span>
 																Uses free testing LLM API. By using you agree to the{' '}
 																<a
-																	href="https://github.com/alibaba/page-agent/blob/main/docs/terms-and-privacy.md#2-testing-api-and-demo-disclaimer--terms-of-use"
+																	href="https://github.com/Mirxa27/Mirxa-agent/blob/main/docs/terms-and-privacy.md#2-testing-api-and-demo-disclaimer--terms-of-use"
 																	target="_blank"
 																	rel="noopener noreferrer"
 																	className="text-yellow-700 dark:text-yellow-300 underline"

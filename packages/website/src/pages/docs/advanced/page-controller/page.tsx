@@ -23,14 +23,14 @@ export default function PageControllerDocs() {
 				<Heading id="basic-usage">{isZh ? '基本用法' : 'Basic Usage'}</Heading>
 				<p className="text-gray-600 dark:text-gray-400 mb-4">
 					{isZh
-						? 'PageAgent 接受 PageController 配置项：'
-						: 'PageAgent accepts PageController options:'}
+						? 'MirxaAgent 接受 PageController 配置项：'
+						: 'MirxaAgent accepts PageController options:'}
 				</p>
 				<CodeEditor
 					language="typescript"
-					code={`import { PageAgent } from 'page-agent'
+					code={`import { MirxaAgent } from 'mirxa-agent'
 
-const agent = new PageAgent({
+const agent = new MirxaAgent({
   baseURL: 'https://api.openai.com/v1',
   apiKey: 'your-api-key',
   model: 'gpt-5.2',
@@ -42,20 +42,20 @@ const agent = new PageAgent({
 				/>
 				<p className="text-gray-600 dark:text-gray-400 mt-4">
 					{isZh
-						? 'PageAgentCore 接受 PageController 实例：'
-						: 'PageAgentCore accepts a PageController instance:'}
+						? 'MirxaAgentCore 接受 PageController 实例：'
+						: 'MirxaAgentCore accepts a PageController instance:'}
 				</p>
 				<CodeEditor
 					language="typescript"
-					code={`import { PageAgentCore } from '@page-agent/core'
-import { PageController } from '@page-agent/page-controller'
+					code={`import { MirxaAgentCore } from '@mirxa-agent/core'
+import { PageController } from '@mirxa-agent/page-controller'
 
 const pageController = new PageController({
   enableMask: true,
   viewportExpansion: -1,  // extract full page
 })
 
-const agent = new PageAgentCore({
+const agent = new MirxaAgentCore({
   pageController,
   baseURL: 'https://api.openai.com/v1',
   apiKey: 'your-api-key',
@@ -76,8 +76,8 @@ const agent = new PageAgentCore({
 							type: 'boolean',
 							defaultValue: 'false',
 							description: isZh
-								? '启用视觉遮罩覆盖层，在自动化期间阻止用户操作页面。通过 PageAgent 创建时默认为 true。'
-								: 'Enable visual mask overlay that blocks user interaction during automation. Defaults to true when created via PageAgent.',
+								? '启用视觉遮罩覆盖层，在自动化期间阻止用户操作页面。通过 MirxaAgent 创建时默认为 true。'
+								: 'Enable visual mask overlay that blocks user interaction during automation. Defaults to true when created via MirxaAgent.',
 						},
 						{
 							name: 'viewportExpansion',
@@ -270,8 +270,8 @@ const agent = new PageAgentCore({
 				</p>
 				<CodeEditor
 					language="typescript"
-					code={`import { PageAgentCore } from '@page-agent/core'
-import type { PageController } from '@page-agent/page-controller'
+					code={`import { MirxaAgentCore } from '@mirxa-agent/core'
+import type { PageController } from '@mirxa-agent/page-controller'
 
 class PuppeteerPageController implements PageController {
   async getBrowserState() { /* ... */ }
@@ -281,7 +281,7 @@ class PuppeteerPageController implements PageController {
   // ... other methods
 }
 
-const agent = new PageAgentCore({
+const agent = new MirxaAgentCore({
   pageController: new PuppeteerPageController(),
   baseURL: 'https://api.openai.com/v1',
   apiKey: 'your-api-key',

@@ -1,25 +1,25 @@
 {
-    "name": "@page-agent/core",
+    "name": "@mirxa-agent/core",
     "private": false,
     "version": "1.8.0",
     "type": "module",
-    "main": "./src/PageAgentCore.ts",
-    "types": "./src/PageAgentCore.ts",
+    "main": "./src/MirxaAgentCore.ts",
+    "types": "./src/MirxaAgentCore.ts",
     "exports": {
         ".": {
-            "types": "./src/PageAgentCore.ts",
-            "default": "./src/PageAgentCore.ts"
+            "types": "./src/MirxaAgentCore.ts",
+            "default": "./src/MirxaAgentCore.ts"
         }
     },
     "publishConfig": {
-        "main": "./dist/esm/page-agent-core.js",
-        "module": "./dist/esm/page-agent-core.js",
-        "types": "./dist/esm/PageAgentCore.d.ts",
+        "main": "./dist/esm/mirxa-agent-core.js",
+        "module": "./dist/esm/mirxa-agent-core.js",
+        "types": "./dist/esm/MirxaAgentCore.d.ts",
         "exports": {
             ".": {
-                "types": "./dist/esm/PageAgentCore.d.ts",
-                "import": "./dist/esm/page-agent-core.js",
-                "default": "./dist/esm/page-agent-core.js"
+                "types": "./dist/esm/MirxaAgentCore.d.ts",
+                "import": "./dist/esm/mirxa-agent-core.js",
+                "default": "./dist/esm/mirxa-agent-core.js"
             }
         }
     },
@@ -39,13 +39,13 @@
         "web-automation",
         "GUI-simulation"
     ],
-    "author": "Simon<gaomeng1900>",
+    "author": "Mirxa27",
     "license": "MIT",
     "repository": {
         "type": "git",
-        "url": "https://github.com/alibaba/page-agent.git"
+        "url": "https://github.com/Mirxa27/Mirxa-agent.git"
     },
-    "homepage": "https://alibaba.github.io/page-agent/",
+    "homepage": "https://Mirxa27.github.io/Mirxa-agent/",
     "scripts": {
         "build": "vite build",
         "dev:iife": "concurrently \"vite build --config vite.iife.config.js --watch\" \"npx serve dist/iife -p 5174\"",
@@ -54,8 +54,8 @@
     },
     "dependencies": {
         "chalk": "^5.6.2",
-        "@page-agent/llms": "1.8.0",
-        "@page-agent/page-controller": "1.8.0"
+        "@mirxa-agent/llms": "1.8.0",
+        "@mirxa-agent/page-controller": "1.8.0"
     },
     "peerDependencies": {
         "zod": "^3.25.0 || ^4.0.0"

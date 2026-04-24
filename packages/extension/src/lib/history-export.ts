@@ -1,4 +1,4 @@
-import type { HistoricalEvent } from '@page-agent/core'
+import type { HistoricalEvent } from '@mirxa-agent/core'
 
 const EXPORT_FILE_PREFIX = 'mirxa-history'
 const MAX_TASK_SLUG_LENGTH = 40

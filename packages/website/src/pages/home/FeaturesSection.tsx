@@ -72,7 +72,7 @@ export default function FeaturesSection() {
 									</div>
 									<div className="bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200/60 dark:border-emerald-700/40 rounded-xl px-5 py-3 font-mono text-sm text-emerald-700 dark:text-emerald-400 flex items-center gap-2.5">
 										<span className="text-emerald-500 text-xs shrink-0">✓</span>
-										{'<script src="page-agent.js"></script>'}
+										{'<script src="mirxa-agent.js"></script>'}
 									</div>
 								</div>
 								<div className="px-7 pb-5">

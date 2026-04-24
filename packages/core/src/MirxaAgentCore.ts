@@ -3,8 +3,8 @@
  * Copyright (C) 2026 SimonLuvRamen
  * All rights reserved.
  */
-import { InvokeError, LLM, type Tool } from '@page-agent/llms'
-import type { BrowserState, PageController } from '@page-agent/page-controller'
+import { InvokeError, LLM, type Tool } from '@mirxa-agent/llms'
+import type { BrowserState, PageController } from '@mirxa-agent/page-controller'
 import chalk from 'chalk'
 import * as z from 'zod/v4'
 
@@ -23,10 +23,10 @@ import type {
 } from './types'
 import { assert, fetchLlmsTxt, normalizeResponse, uid, waitFor } from './utils'
 
-export { tool, type PageAgentTool } from './tools'
+export { tool, type MirxaAgentTool } from './tools'
 export type * from './types'
 
-export type PageAgentCoreConfig = AgentConfig & { pageController: PageController }
+export type MirxaAgentCoreConfig = AgentConfig & { pageController: PageController }
 
 /**
  * AI agent for browser automation.
@@ -58,9 +58,9 @@ export type PageAgentCoreConfig = AgentConfig & { pageController: PageController
  *    - NOT included in LLM context
  *    - Types: thinking, executing, executed, retrying, error
  */
-export class PageAgentCore extends EventTarget {
+export class MirxaAgentCore extends EventTarget {
 	readonly id = uid()
-	readonly config: PageAgentCoreConfig & { maxSteps: number }
+	readonly config: MirxaAgentCoreConfig & { maxSteps: number }
 	readonly tools: typeof tools
 	/** PageController for DOM operations */
 	readonly pageController: PageController
@@ -94,7 +94,7 @@ export class PageAgentCore extends EventTarget {
 		browserState: null as BrowserState | null,
 	}
 
-	constructor(config: PageAgentCoreConfig) {
+	constructor(config: MirxaAgentCoreConfig) {
 		super()
 
 		this.config = { ...config, maxSteps: config.maxSteps ?? 40 }
@@ -103,32 +103,8 @@ export class PageAgentCore extends EventTarget {
 		this.tools = new Map(tools)
 		this.pageController = config.pageController
 
-		// Listen to LLM retry events
-		this.#llm.addEventListener('retry', (e) => {
-			const { attempt, maxAttempts } = (e as CustomEvent).detail
-			this.#emitActivity({ type: 'retrying', attempt, maxAttempts })
-			// Also push to history for panel rendering
-			this.history.push({
-				type: 'retry',
-				message: `LLM retry attempt ${attempt} of ${maxAttempts}`,
-				attempt,
-				maxAttempts,
-			})
-			this.#emitHistoryChange()
-		})
-		this.#llm.addEventListener('error', (e) => {
-			const error = (e as CustomEvent).detail.error as Error | InvokeError
-			if ((error as any)?.rawError?.name === 'AbortError') return
-			const message = String(error)
-			this.#emitActivity({ type: 'error', message })
-			// Also push to history for panel rendering
-			this.history.push({
-				type: 'error',
-				message,
-				rawResponse: (error as InvokeError).rawResponse,
-			})
-			this.#emitHistoryChange()
-		})
+		// Listen to LLM retry/error events
+		this.#wireLLMEvents()
 
 		if (this.config.customTools) {
 			for (const [name, tool] of Object.entries(this.config.customTools)) {
@@ -143,11 +119,64 @@ export class PageAgentCore extends EventTarget {
 		if (!this.config.experimentalScriptExecutionTool) {
 			this.tools.delete('execute_javascript')
 		}
+
+		if (!this.config.attachedFiles) {
+			this.tools.delete('list_attached_files')
+			this.tools.delete('read_attached_file')
+		}
 	}
 
 	/** Get current agent status */
 	get status(): AgentStatus {
 		return this.#status
+	}
+
+	/**
+	 * Update the LLM connection settings at runtime (e.g. when the user
+	 * changes provider/API key/model in the Settings panel).
+	 *
+	 * The new client takes effect on the next LLM invocation. In-flight
+	 * invocations are not interrupted.
+	 */
+	setLLMConfig(patch: Partial<Pick<AgentConfig, 'baseURL' | 'apiKey' | 'model'>>): void {
+		const next = {
+			...this.config,
+			baseURL: patch.baseURL ?? this.config.baseURL,
+			apiKey: patch.apiKey ?? this.config.apiKey,
+			model: patch.model ?? this.config.model,
+		}
+		// Re-create LLM with new config and re-attach event listeners.
+		this.config.baseURL = next.baseURL
+		this.config.apiKey = next.apiKey
+		this.config.model = next.model
+		this.#llm = new LLM(next)
+		this.#wireLLMEvents()
+	}
+
+	#wireLLMEvents(): void {
+		this.#llm.addEventListener('retry', (e) => {
+			const { attempt, maxAttempts } = (e as CustomEvent).detail
+			this.#emitActivity({ type: 'retrying', attempt, maxAttempts })
+			this.history.push({
+				type: 'retry',
+				message: `LLM retry attempt ${attempt} of ${maxAttempts}`,
+				attempt,
+				maxAttempts,
+			})
+			this.#emitHistoryChange()
+		})
+		this.#llm.addEventListener('error', (e) => {
+			const error = (e as CustomEvent).detail.error as Error | InvokeError
+			if ((error as any)?.rawError?.name === 'AbortError') return
+			const message = String(error)
+			this.#emitActivity({ type: 'error', message })
+			this.history.push({
+				type: 'error',
+				message,
+				rawResponse: (error as InvokeError).rawResponse,
+			})
+			this.#emitHistoryChange()
+		})
 	}
 
 	/** Emit statuschange event */
@@ -194,7 +223,7 @@ export class PageAgentCore extends EventTarget {
 	}
 
 	async execute(task: string): Promise<ExecutionResult> {
-		if (this.disposed) throw new Error('PageAgent has been disposed. Create a new instance.')
+		if (this.disposed) throw new Error('MirxaAgent has been disposed. Create a new instance.')
 		if (!task) throw new Error('Task is required')
 		this.task = task
 		this.taskId = uid()
@@ -411,7 +440,7 @@ export class PageAgentCore extends EventTarget {
 
 				const startTime = Date.now()
 
-				// Execute tool, bind `this` to PageAgent
+				// Execute tool, bind `this` to MirxaAgent
 				const result = await tool.execute.bind(this)(toolInput)
 
 				const duration = Date.now() - startTime
@@ -474,7 +503,7 @@ export class PageAgentCore extends EventTarget {
 				pageInstructions = instructions.getPageInstructions(url)?.trim()
 			} catch (error) {
 				console.error(
-					chalk.red('[PageAgent] Failed to execute getPageInstructions callback:'),
+					chalk.red('[MirxaAgent] Failed to execute getPageInstructions callback:'),
 					error
 				)
 			}
@@ -627,7 +656,7 @@ export class PageAgentCore extends EventTarget {
 	}
 
 	dispose() {
-		console.log('Disposing PageAgent...')
+		console.log('Disposing MirxaAgent...')
 		this.disposed = true
 		this.pageController.dispose()
 		// this.history = []

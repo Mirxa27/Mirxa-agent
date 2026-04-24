@@ -4,16 +4,16 @@
 
 This is a **monorepo** with npm workspaces:
 
-- **Page Agent** (`packages/page-agent/`) - Main entry with built-in UI Panel, published as `page-agent` on npm
+- **Mirxa Agent** (`packages/mirxa-agent/`) - Main entry with built-in UI Panel, published as `mirxa-agent` on npm
 - **Extension** (`packages/extension/`) - Browser extension (WXT + React)
 - **Website** (`packages/website/`) - React docs and landing page. **When working on website, follow `packages/website/AGENTS.md`**
 
 Internal packages:
 
-- **Core** (`packages/core/`) - PageAgentCore without UI (npm: `@page-agent/core`)
+- **Core** (`packages/core/`) - MirxaAgentCore without UI (npm: `@mirxa-agent/core`)
 - **LLMs** (`packages/llms/`) - LLM client with reflection-before-action mental model
 - **Page Controller** (`packages/page-controller/`) - DOM operations and visual feedback (SimulatorMask), independent of LLM
-- **UI** (`packages/ui/`) - Panel and i18n. Decoupled from PageAgent
+- **UI** (`packages/ui/`) - Panel and i18n. Decoupled from MirxaAgent
 
 ## Development Commands
 
@@ -34,31 +34,31 @@ Source-first monorepo: library `package.json` exports point to `src/*.ts` during
 
 ```
 packages/
-├── core/                    # npm: "@page-agent/core" ⭐ Core agent logic (headless)
-├── page-agent/              # npm: "page-agent" entry class (with UI + controller + demo builds)
-├── website/                 # @page-agent/website (private)
-├── llms/                    # @page-agent/llms
+├── core/                    # npm: "@mirxa-agent/core" ⭐ Core agent logic (headless)
+├── mirxa-agent/              # npm: "mirxa-agent" entry class (with UI + controller + demo builds)
+├── website/                 # @mirxa-agent/website (private)
+├── llms/                    # @mirxa-agent/llms
 ├── extension/               # Browser extension
-├── page-controller/         # @page-agent/page-controller
-└── ui/                      # @page-agent/ui
+├── page-controller/         # @mirxa-agent/page-controller
+└── ui/                      # @mirxa-agent/ui
 ```
 
 `workspaces` in `package.json` must be in topological order.
 
 ### Module Boundaries
 
-- **Page Agent**: Main entry with UI. Extends PageAgentCore and adds Panel. Imports from `@page-agent/core`, `@page-agent/ui`
-- **Core**: PageAgentCore without UI. Imports from `@page-agent/llms`, `@page-agent/page-controller`
-- **LLMs**: LLM client with MacroToolInput contract. No dependency on page-agent
-- **UI**: Panel and i18n. Decoupled from PageAgent via PanelAgentAdapter interface
+- **Mirxa Agent**: Main entry with UI. Extends MirxaAgentCore and adds Panel. Imports from `@mirxa-agent/core`, `@mirxa-agent/ui`
+- **Core**: MirxaAgentCore without UI. Imports from `@mirxa-agent/llms`, `@mirxa-agent/page-controller`
+- **LLMs**: LLM client with MacroToolInput contract. No dependency on mirxa-agent
+- **UI**: Panel and i18n. Decoupled from MirxaAgent via PanelAgentAdapter interface
 - **Page Controller**: DOM operations with optional visual feedback (SimulatorMask). No LLM dependency. Enable mask via `enableMask: true` config
 
-### PageController ↔ PageAgent Communication
+### PageController ↔ MirxaAgent Communication
 
 All communication is async and isolated:
 
 ```typescript
-// PageAgent delegates DOM operations to PageController
+// MirxaAgent delegates DOM operations to PageController
 await this.pageController.updateTree()
 await this.pageController.clickElement(index)
 await this.pageController.inputText(index, text)
@@ -73,23 +73,23 @@ const pageInfo = await this.pageController.getPageInfo()
 
 1. **DOM Extraction**: Live DOM → `FlatDomTree` via `page-controller/src/dom/dom_tree/`
 2. **Dehydration**: DOM tree → simplified text for LLM
-3. **LLM Processing**: AI returns action plans (page-agent)
-4. **Indexed Operations**: PageAgent calls PageController by element index
+3. **LLM Processing**: AI returns action plans (mirxa-agent)
+4. **Indexed Operations**: MirxaAgent calls PageController by element index
 
 ## Key Files Reference
 
-### Page Agent (`packages/page-agent/`)
+### Mirxa Agent (`packages/mirxa-agent/`)
 
 | File               | Description                                  |
 | ------------------ | -------------------------------------------- |
-| `src/PageAgent.ts` | ⭐ Main class with UI, extends PageAgentCore |
+| `src/MirxaAgent.ts` | ⭐ Main class with UI, extends MirxaAgentCore |
 | `src/demo.ts`      | IIFE demo entry (auto-init with demo API)    |
 
 ### Core (`packages/core/`)
 
 | File                   | Description                             |
 | ---------------------- | --------------------------------------- |
-| `src/PageAgentCore.ts` | ⭐ Core agent class without UI          |
+| `src/MirxaAgentCore.ts` | ⭐ Core agent class without UI          |
 | `src/tools/`           | Tool definitions calling PageController |
 | `src/config/`          | Configuration types and constants       |
 | `src/prompts/`         | System prompt templates                 |

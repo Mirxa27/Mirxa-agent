@@ -1,31 +1,31 @@
 /**
- * Internal tools for PageAgent.
+ * Internal tools for MirxaAgent.
  * @note Adapted from browser-use
  */
 import * as z from 'zod/v4'
 
-import type { PageAgentCore } from '../PageAgentCore'
+import type { MirxaAgentCore } from '../MirxaAgentCore'
 import { waitFor } from '../utils'
 
 /**
- * Internal tool definition that has access to PageAgent `this` context
+ * Internal tool definition that has access to MirxaAgent `this` context
  */
-export interface PageAgentTool<TParams = any> {
+export interface MirxaAgentTool<TParams = any> {
 	// name: string
 	description: string
 	inputSchema: z.ZodType<TParams>
-	execute: (this: PageAgentCore, args: TParams) => Promise<string>
+	execute: (this: MirxaAgentCore, args: TParams) => Promise<string>
 }
 
-export function tool<TParams>(options: PageAgentTool<TParams>): PageAgentTool<TParams> {
+export function tool<TParams>(options: MirxaAgentTool<TParams>): MirxaAgentTool<TParams> {
 	return options
 }
 
 /**
- * Internal tools for PageAgent.
+ * Internal tools for MirxaAgent.
  * Note: Using any to allow different parameter types for each tool
  */
-export const tools = new Map<string, PageAgentTool>()
+export const tools = new Map<string, MirxaAgentTool>()
 
 tools.set(
 	'done',
@@ -36,7 +36,7 @@ tools.set(
 			text: z.string(),
 			success: z.boolean().default(true),
 		}),
-		execute: async function (this: PageAgentCore, input) {
+		execute: async function (this: MirxaAgentCore, input) {
 			// @note main loop will handle this one
 			return Promise.resolve('Task completed')
 		},
@@ -50,7 +50,7 @@ tools.set(
 		inputSchema: z.object({
 			seconds: z.number().min(1).max(10).default(1),
 		}),
-		execute: async function (this: PageAgentCore, input) {
+		execute: async function (this: MirxaAgentCore, input) {
 			// try to subtract LLM calling time from the actual wait time
 			const lastTimeUpdate = await this.pageController.getLastUpdateTime()
 			const actualWaitTime = Math.max(0, input.seconds - (Date.now() - lastTimeUpdate) / 1000)
@@ -70,7 +70,7 @@ tools.set(
 		inputSchema: z.object({
 			question: z.string(),
 		}),
-		execute: async function (this: PageAgentCore, input) {
+		execute: async function (this: MirxaAgentCore, input) {
 			if (!this.onAskUser) {
 				throw new Error('ask_user tool requires onAskUser callback to be set')
 			}
@@ -87,7 +87,7 @@ tools.set(
 		inputSchema: z.object({
 			index: z.int().min(0),
 		}),
-		execute: async function (this: PageAgentCore, input) {
+		execute: async function (this: MirxaAgentCore, input) {
 			const result = await this.pageController.clickElement(input.index)
 			return result.message
 		},
@@ -102,7 +102,7 @@ tools.set(
 			index: z.int().min(0),
 			text: z.string(),
 		}),
-		execute: async function (this: PageAgentCore, input) {
+		execute: async function (this: MirxaAgentCore, input) {
 			const result = await this.pageController.inputText(input.index, input.text)
 			return result.message
 		},
@@ -118,7 +118,7 @@ tools.set(
 			index: z.int().min(0),
 			text: z.string(),
 		}),
-		execute: async function (this: PageAgentCore, input) {
+		execute: async function (this: MirxaAgentCore, input) {
 			const result = await this.pageController.selectOption(input.index, input.text)
 			return result.message
 		},
@@ -139,7 +139,7 @@ tools.set(
 			pixels: z.number().int().min(0).optional(),
 			index: z.number().int().min(0).optional(),
 		}),
-		execute: async function (this: PageAgentCore, input) {
+		execute: async function (this: MirxaAgentCore, input) {
 			const result = await this.pageController.scroll({
 				...input,
 				numPages: input.num_pages,
@@ -162,7 +162,7 @@ tools.set(
 			pixels: z.number().int().min(0),
 			index: z.number().int().min(0).optional(),
 		}),
-		execute: async function (this: PageAgentCore, input) {
+		execute: async function (this: MirxaAgentCore, input) {
 			const result = await this.pageController.scrollHorizontally(input)
 			return result.message
 		},
@@ -177,7 +177,7 @@ tools.set(
 		inputSchema: z.object({
 			script: z.string(),
 		}),
-		execute: async function (this: PageAgentCore, input) {
+		execute: async function (this: MirxaAgentCore, input) {
 			const result = await this.pageController.executeJavascript(input.script)
 			return result.message
 		},
@@ -194,7 +194,7 @@ tools.set(
 				.string()
 				.describe('Absolute URL to navigate to, including protocol (e.g. https://example.com)'),
 		}),
-		execute: async function (this: PageAgentCore, input) {
+		execute: async function (this: MirxaAgentCore, input) {
 			const result = await this.pageController.navigateTo(input.url)
 			return result.message
 		},
@@ -207,7 +207,7 @@ tools.set(
 		description:
 			'Navigate the current tab back to the previous page in browser history. Use when you need to undo a navigation or return from an error page.',
 		inputSchema: z.object({}),
-		execute: async function (this: PageAgentCore, _input) {
+		execute: async function (this: MirxaAgentCore, _input) {
 			const result = await this.pageController.goBack()
 			return result.message
 		},
@@ -226,9 +226,65 @@ tools.set(
 					'Keys to dispatch in sequence, e.g. ["Escape"], ["Tab"], ["Enter"], ["ArrowDown", "ArrowDown", "Enter"]'
 				),
 		}),
-		execute: async function (this: PageAgentCore, input) {
+		execute: async function (this: MirxaAgentCore, input) {
 			const result = await this.pageController.sendKeys(input.keys)
 			return result.message
+		},
+	})
+)
+
+tools.set(
+	'list_attached_files',
+	tool({
+		description:
+			"List user-attached files available to this task (uploaded via the Mirxa Agent settings panel). Returns each file's name, mime type, size and a short preview. Use `read_attached_file` to read the full content of a specific file.",
+		inputSchema: z.object({}),
+		execute: async function (this: MirxaAgentCore, _input) {
+			const adapter = this.config.attachedFiles
+			if (!adapter) return 'No attached-files adapter configured.'
+			const files = await adapter.list()
+			if (files.length === 0) return 'No files attached.'
+			return files
+				.map(
+					(f) =>
+						`- ${f.name} (${f.mimeType}, ${f.size} bytes)${
+							f.preview ? `\n  preview: ${f.preview}` : ''
+						}`
+				)
+				.join('\n')
+		},
+	})
+)
+
+const READ_FILE_MAX_CHARS = 20_000
+
+tools.set(
+	'read_attached_file',
+	tool({
+		description:
+			'Read the full content of a user-attached file by its `name` (or `id`). Use `list_attached_files` first to discover available files. Output is truncated to ~20K characters; for binary files the content is base64-encoded.',
+		inputSchema: z
+			.object({
+				name: z.string().optional(),
+				id: z.string().optional(),
+			})
+			.refine((v) => Boolean(v.name || v.id), {
+				message: 'Provide either `name` or `id`.',
+			}),
+		execute: async function (this: MirxaAgentCore, input) {
+			const adapter = this.config.attachedFiles
+			if (!adapter) return 'No attached-files adapter configured.'
+			const record = input.id
+				? await adapter.getById(input.id)
+				: await adapter.getByName(input.name!)
+			if (!record) return `No attached file matched ${JSON.stringify(input)}.`
+			const truncated = record.content.length > READ_FILE_MAX_CHARS
+			const body = truncated
+				? record.content.slice(0, READ_FILE_MAX_CHARS) +
+					`\n…[truncated ${record.content.length - READ_FILE_MAX_CHARS} chars]`
+				: record.content
+			const tag = record.isBinary ? 'base64' : 'text'
+			return `# ${record.name} (${record.mimeType}, ${record.size} bytes, ${tag})\n\n${body}`
 		},
 	})
 )

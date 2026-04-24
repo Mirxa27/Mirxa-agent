@@ -117,7 +117,7 @@ export default function Models() {
 				<Heading id="configuration">{isZh ? '配置方式' : 'Configuration'}</Heading>
 				<CodeEditor
 					code={`// OpenAI-compatible services (e.g., Alibaba Bailian)
-const pageAgent = new PageAgent({
+const mirxaAgent = new MirxaAgent({
   baseURL: 'https://dashscope.aliyuncs.com/compatible-mode/v1',
   apiKey: 'your-api-key',
   model: 'qwen3.5-plus'
@@ -150,7 +150,7 @@ const pageAgent = new PageAgent({
 					)}
 				</p>
 				<CodeEditor
-					code={`const agent = new PageAgent({
+					code={`const agent = new MirxaAgent({
   baseURL: '/api/llm-proxy',
   model: 'gpt-5.1',
   customFetch: (url, init) =>
@@ -170,7 +170,7 @@ const pageAgent = new PageAgent({
 				<Heading id="free-testing-api">{isZh ? '免费测试接口' : 'Free Testing API'}</Heading>
 				<p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
 					{isZh
-						? '以下免费测试接口仅供 PageAgent.js 和 PageAgent Extension 的技术评估和测试使用。'
+						? '以下免费测试接口仅供 MirxaAgent.js 和 MirxaAgent Extension 的技术评估和测试使用。'
 						: 'The following free testing endpoint is provided for testing and technical evaluation.'}
 				</p>
 				<div className="my-4 p-4 bg-amber-50 dark:bg-amber-950/20 rounded-lg border border-amber-200 dark:border-amber-800">
@@ -179,7 +179,7 @@ const pageAgent = new PageAgent({
 							? '⚠️ 仅供技术评估和研发用途，禁止用于生产环境。数据通过中国大陆服务器处理。请勿输入任何个人身份信息或敏感数据。使用即表示您同意'
 							: '⚠️ Strictly for technical evaluation and R&D only. Data is processed via servers in Mainland China. Do not input any PII or sensitive data. By using this API you agree to the'}{' '}
 						<a
-							href="https://github.com/alibaba/page-agent/blob/main/docs/terms-and-privacy.md#2-testing-api-and-demo-disclaimer--terms-of-use"
+							href="https://github.com/Mirxa27/Mirxa-agent/blob/main/docs/terms-and-privacy.md#2-testing-api-and-demo-disclaimer--terms-of-use"
 							target="_blank"
 							rel="noopener noreferrer"
 							className="text-blue-500 hover:underline"
@@ -198,7 +198,7 @@ const pageAgent = new PageAgent({
 							: 'Proxied via Alibaba Cloud FC (Mainland China) to BaiLian Qwen models'}
 						{' · '}
 						<a
-							href="https://github.com/alibaba/page-agent/blob/main/docs/terms-and-privacy.md#2-testing-api-and-demo-disclaimer--terms-of-use"
+							href="https://github.com/Mirxa27/Mirxa-agent/blob/main/docs/terms-and-privacy.md#2-testing-api-and-demo-disclaimer--terms-of-use"
 							target="_blank"
 							rel="noopener noreferrer"
 							className="text-blue-500 hover:underline"
@@ -218,8 +218,8 @@ LLM_MODEL_NAME="qwen3.5-plus"`}
 				<Heading id="local-runtimes">{isZh ? '本地运行时' : 'Local Runtimes'}</Heading>
 				<p className="text-sm text-gray-600 dark:text-gray-400 mb-6">
 					{isZh
-						? '通过 Ollama、LM Studio 等本地 OpenAI-compatible 运行时接入 PageAgent，实现离线或局域网部署。'
-						: 'Use local OpenAI-compatible runtimes such as Ollama and LM Studio with PageAgent for offline or LAN deployments.'}
+						? '通过 Ollama、LM Studio 等本地 OpenAI-compatible 运行时接入 MirxaAgent，实现离线或局域网部署。'
+						: 'Use local OpenAI-compatible runtimes such as Ollama and LM Studio with MirxaAgent for offline or LAN deployments.'}
 				</p>
 
 				<div className="space-y-10">
@@ -257,13 +257,13 @@ LLM_MODEL_NAME="qwen3.5-plus"`}
 						</Heading>
 						<CodeEditor
 							code={`// Local OpenAI-compatible runtime - no apiKey needed
-const pageAgent = new PageAgent({
+const mirxaAgent = new MirxaAgent({
   baseURL: 'http://localhost:11434/v1',
   model: 'qwen3:14b'
 });
 
 // Or connect to LM Studio
-const lmStudioAgent = new PageAgent({
+const lmStudioAgent = new MirxaAgent({
   baseURL: 'http://127.0.0.1:1234/v1',
   model: 'qwen/qwen3.5-27b'
 });

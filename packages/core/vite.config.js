@@ -25,9 +25,9 @@ export default defineConfig({
 	publicDir: false,
 	build: {
 		lib: {
-			entry: resolve(__dirname, 'src/PageAgentCore.ts'),
-			name: 'PageAgentCore',
-			fileName: 'page-agent-core',
+			entry: resolve(__dirname, 'src/MirxaAgentCore.ts'),
+			name: 'MirxaAgentCore',
+			fileName: 'mirxa-agent-core',
 			formats: ['es'],
 		},
 		outDir: resolve(__dirname, 'dist', 'esm'),
@@ -37,7 +37,7 @@ export default defineConfig({
 				'zod',
 				'zod/v4',
 				// all the internal packages
-				/^@page-agent\//,
+				/^@mirxa-agent\//,
 			],
 		},
 		minify: false,

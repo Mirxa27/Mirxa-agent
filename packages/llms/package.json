@@ -1,5 +1,5 @@
 {
-    "name": "@page-agent/llms",
+    "name": "@mirxa-agent/llms",
     "version": "1.8.0",
     "type": "module",
     "main": "./src/index.ts",
@@ -11,36 +11,36 @@
         }
     },
     "publishConfig": {
-        "main": "./dist/lib/page-agent-llms.js",
-        "module": "./dist/lib/page-agent-llms.js",
+        "main": "./dist/lib/mirxa-agent-llms.js",
+        "module": "./dist/lib/mirxa-agent-llms.js",
         "types": "./dist/lib/index.d.ts",
         "exports": {
             ".": {
                 "types": "./dist/lib/index.d.ts",
-                "import": "./dist/lib/page-agent-llms.js",
-                "default": "./dist/lib/page-agent-llms.js"
+                "import": "./dist/lib/mirxa-agent-llms.js",
+                "default": "./dist/lib/mirxa-agent-llms.js"
             }
         }
     },
     "files": [
         "dist/"
     ],
-    "description": "LLM client with reflection-before-action mental model for page-agent",
+    "description": "LLM client with reflection-before-action mental model for mirxa-agent",
     "keywords": [
-        "page-agent",
+        "mirxa-agent",
         "llm",
         "openai",
         "tool-calling",
         "agent"
     ],
-    "author": "Simon<gaomeng1900>",
+    "author": "Mirxa27",
     "license": "MIT",
     "repository": {
         "type": "git",
-        "url": "https://github.com/alibaba/page-agent.git",
+        "url": "https://github.com/Mirxa27/Mirxa-agent.git",
         "directory": "packages/llms"
     },
-    "homepage": "https://alibaba.github.io/page-agent/",
+    "homepage": "https://Mirxa27.github.io/Mirxa-agent/",
     "scripts": {
         "build": "vite build",
         "prepublishOnly": "node ../../scripts/pre-publish.js",

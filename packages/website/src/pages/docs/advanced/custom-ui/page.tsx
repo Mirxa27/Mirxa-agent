@@ -12,8 +12,8 @@ export default function CustomUIDocs() {
 
 			<p className="text-xl text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
 				{isZh
-					? 'PageAgent 的核心逻辑（PageAgentCore）和 UI 完全解耦，通过事件通讯。你可以用自己的 UI 替换内置 Panel。'
-					: 'PageAgent core logic (PageAgentCore) is fully decoupled from UI through events. You can replace the built-in Panel with your own UI.'}
+					? 'MirxaAgent 的核心逻辑（MirxaAgentCore）和 UI 完全解耦，通过事件通讯。你可以用自己的 UI 替换内置 Panel。'
+					: 'MirxaAgent core logic (MirxaAgentCore) is fully decoupled from UI through events. You can replace the built-in Panel with your own UI.'}
 			</p>
 
 			{/* Architecture */}
@@ -21,12 +21,12 @@ export default function CustomUIDocs() {
 				<Heading id="architecture">{isZh ? '架构' : 'Architecture'}</Heading>
 				<p className="text-gray-600 dark:text-gray-400 mb-4">
 					{isZh
-						? 'PageAgent 由三个独立模块组成，可自由组合：'
-						: 'PageAgent consists of three independent modules that can be freely combined:'}
+						? 'MirxaAgent 由三个独立模块组成，可自由组合：'
+						: 'MirxaAgent consists of three independent modules that can be freely combined:'}
 				</p>
 				<ul className="list-disc list-inside text-gray-600 dark:text-gray-400 space-y-2 mb-4">
 					<li>
-						<strong>PageAgentCore</strong> -{' '}
+						<strong>MirxaAgentCore</strong> -{' '}
 						{isZh ? '核心 Agent 逻辑，不包含 UI' : 'Core agent logic, no UI'}
 					</li>
 					<li>
@@ -49,8 +49,8 @@ export default function CustomUIDocs() {
 				<Heading id="two-event-streams">{isZh ? '两个事件流' : 'Two Event Streams'}</Heading>
 				<p className="text-gray-600 dark:text-gray-400 mb-4">
 					{isZh
-						? 'PageAgentCore 提供两种不同性质的事件流，方便 UI 渲染：'
-						: 'PageAgentCore provides two distinct event streams for UI rendering:'}
+						? 'MirxaAgentCore 提供两种不同性质的事件流，方便 UI 渲染：'
+						: 'MirxaAgentCore provides two distinct event streams for UI rendering:'}
 				</p>
 
 				{/* Comparison Table */}
@@ -198,7 +198,7 @@ export default function CustomUIDocs() {
 				</p>
 				<CodeEditor
 					language="tsx"
-					code={`function useAgent(agent: PageAgentCore) {
+					code={`function useAgent(agent: MirxaAgentCore) {
   const [status, setStatus] = useState(agent.status)
   const [history, setHistory] = useState(agent.history)
   const [activity, setActivity] = useState<AgentActivity | null>(null)
@@ -233,19 +233,19 @@ export default function CustomUIDocs() {
 				</Heading>
 				<p className="text-gray-600 dark:text-gray-400 mb-4">
 					{isZh
-						? '参考内置 PageAgent 的实现方式，用自定义 UI 替换 Panel：'
-						: 'Following the built-in PageAgent pattern, replace Panel with custom UI:'}
+						? '参考内置 MirxaAgent 的实现方式，用自定义 UI 替换 Panel：'
+						: 'Following the built-in MirxaAgent pattern, replace Panel with custom UI:'}
 				</p>
 				<CodeEditor
 					language="typescript"
-					code={`import { PageAgentCore } from '@page-agent/core'
-import { PageController } from '@page-agent/page-controller'
+					code={`import { MirxaAgentCore } from '@mirxa-agent/core'
+import { PageController } from '@mirxa-agent/page-controller'
 
 // 1. Create PageController
 const pageController = new PageController({ enableMask: true })
 
-// 2. Create PageAgentCore with controller
-const agent = new PageAgentCore({
+// 2. Create MirxaAgentCore with controller
+const agent = new MirxaAgentCore({
   pageController,
   baseURL: 'https://api.openai.com/v1',
   apiKey: 'your-api-key',

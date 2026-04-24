@@ -4,28 +4,28 @@ import CodeEditor from '@/components/CodeEditor'
 import { Heading } from '@/components/Heading'
 import { useLanguage } from '@/i18n/context'
 
-export default function PageAgentDocs() {
+export default function MirxaAgentDocs() {
 	const { isZh } = useLanguage()
 
 	return (
 		<div>
-			<h1 className="text-4xl font-bold mb-6">PageAgent</h1>
+			<h1 className="text-4xl font-bold mb-6">MirxaAgent</h1>
 
 			<p className="text-xl text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
 				{isZh
-					? 'PageAgent 是带有内置 UI 面板的完整 Agent 类。它继承自 PageAgentCore，并自动创建交互面板和 PageController。'
-					: 'PageAgent is the complete Agent class with built-in UI panel. It extends PageAgentCore and automatically creates an interactive panel and PageController.'}
+					? 'MirxaAgent 是带有内置 UI 面板的完整 Agent 类。它继承自 MirxaAgentCore，并自动创建交互面板和 PageController。'
+					: 'MirxaAgent is the complete Agent class with built-in UI panel. It extends MirxaAgentCore and automatically creates an interactive panel and PageController.'}
 			</p>
 
 			{/* When to use */}
 			<section className="mb-10">
 				<Heading id="when-to-use-pageagent">
-					{isZh ? '何时使用 PageAgent' : 'When to Use PageAgent'}
+					{isZh ? '何时使用 MirxaAgent' : 'When to Use MirxaAgent'}
 				</Heading>
 				<p className="text-gray-600 dark:text-gray-400 mb-4">
 					{isZh
-						? '在大多数场景下，你应该使用 PageAgent。它提供了开箱即用的完整体验：'
-						: 'In most cases, you should use PageAgent. It provides a complete out-of-the-box experience:'}
+						? '在大多数场景下，你应该使用 MirxaAgent。它提供了开箱即用的完整体验：'
+						: 'In most cases, you should use MirxaAgent. It provides a complete out-of-the-box experience:'}
 				</p>
 				<ul className="list-disc list-inside text-gray-600 dark:text-gray-400 space-y-2 mb-6">
 					<li>
@@ -51,9 +51,9 @@ export default function PageAgentDocs() {
 				<Heading id="basic-usage">{isZh ? '基本用法' : 'Basic Usage'}</Heading>
 				<CodeEditor
 					language="typescript"
-					code={`import { PageAgent } from 'page-agent'
+					code={`import { MirxaAgent } from 'mirxa-agent'
 
-const agent = new PageAgent({
+const agent = new MirxaAgent({
   // LLM Configuration (required)
   baseURL: 'https://api.openai.com/v1',
   apiKey: 'your-api-key',
@@ -77,25 +77,25 @@ console.log(result.history) // Full execution history`}
 				<Heading id="class-definition">{isZh ? '类定义' : 'Class Definition'}</Heading>
 				<CodeEditor
 					language="typescript"
-					code={`class PageAgent extends PageAgentCore {
+					code={`class MirxaAgent extends MirxaAgentCore {
   panel: Panel
   pageController: PageController
-  constructor(config: PageAgentConfig)
+  constructor(config: MirxaAgentConfig)
 }`}
 				/>
 				<p className="text-gray-600 dark:text-gray-400 mt-4">
 					{isZh ? (
 						<>
-							PageAgent 继承自{' '}
+							MirxaAgent 继承自{' '}
 							<Link
-								href="/advanced/page-agent-core"
+								href="/advanced/mirxa-agent-core"
 								className="text-blue-600 dark:text-blue-400 hover:underline"
 							>
-								PageAgentCore
+								MirxaAgentCore
 							</Link>
 							，所有核心方法和事件都可用。配置项合并了{' '}
 							<Link
-								href="/advanced/page-agent-core#configuration"
+								href="/advanced/mirxa-agent-core#configuration"
 								className="text-blue-600 dark:text-blue-400 hover:underline"
 							>
 								AgentConfig
@@ -111,16 +111,16 @@ console.log(result.history) // Full execution history`}
 						</>
 					) : (
 						<>
-							PageAgent extends{' '}
+							MirxaAgent extends{' '}
 							<Link
-								href="/advanced/page-agent-core"
+								href="/advanced/mirxa-agent-core"
 								className="text-blue-600 dark:text-blue-400 hover:underline"
 							>
-								PageAgentCore
+								MirxaAgentCore
 							</Link>
 							. All core methods and events are available. Config merges{' '}
 							<Link
-								href="/advanced/page-agent-core#configuration"
+								href="/advanced/mirxa-agent-core#configuration"
 								className="text-blue-600 dark:text-blue-400 hover:underline"
 							>
 								AgentConfig
@@ -143,8 +143,8 @@ console.log(result.history) // Full execution history`}
 				<Heading id="panel">{isZh ? 'UI 面板' : 'UI Panel'}</Heading>
 				<p className="text-gray-600 dark:text-gray-400 mb-4">
 					{isZh
-						? 'PageAgent 自动创建一个 Panel 实例。你可以通过 panel 属性控制 UI：'
-						: 'PageAgent automatically creates a Panel instance. You can control the UI via the panel property:'}
+						? 'MirxaAgent 自动创建一个 Panel 实例。你可以通过 panel 属性控制 UI：'
+						: 'MirxaAgent automatically creates a Panel instance. You can control the UI via the panel property:'}
 				</p>
 				<CodeEditor
 					language="typescript"
@@ -164,10 +164,10 @@ agent.panel.dispose()`}
 				/>
 			</section>
 
-			{/* Comparison with PageAgentCore */}
+			{/* Comparison with MirxaAgentCore */}
 			<section className="mb-10">
 				<Heading id="pageagent-vs-pageagentcore">
-					{isZh ? 'PageAgent vs PageAgentCore' : 'PageAgent vs PageAgentCore'}
+					{isZh ? 'MirxaAgent vs MirxaAgentCore' : 'MirxaAgent vs MirxaAgentCore'}
 				</Heading>
 				<div className="overflow-hidden rounded-lg border border-gray-200 dark:border-gray-700">
 					<table className="w-full text-sm">
@@ -175,10 +175,10 @@ agent.panel.dispose()`}
 							<tr className="bg-gray-50 dark:bg-gray-800/50">
 								<th className="px-4 py-3 text-left font-medium text-gray-600 dark:text-gray-300"></th>
 								<th className="px-4 py-3 text-center font-medium text-gray-600 dark:text-gray-300">
-									PageAgent
+									MirxaAgent
 								</th>
 								<th className="px-4 py-3 text-center font-medium text-gray-600 dark:text-gray-300">
-									PageAgentCore
+									MirxaAgentCore
 								</th>
 							</tr>
 						</thead>

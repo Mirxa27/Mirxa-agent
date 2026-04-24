@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url'
 import { WebSocketServer } from 'ws'
 
 const EXT_ID = 'akldabonmimlicnjlflnapfeklbfemhj'
-const STORE_URL = `https://chromewebstore.google.com/detail/page-agent-ext/${EXT_ID}`
+const STORE_URL = `https://chromewebstore.google.com/detail/mirxa-agent-ext/${EXT_ID}`
 const LOOPBACK_HOST = 'localhost'
 
 const launcherTemplate = readFileSync(

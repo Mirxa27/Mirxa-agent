@@ -10,7 +10,7 @@ export function parseLLMConfig(config: LLMConfig): Required<LLMConfig> {
 	// Runtime validation as defensive programming (types already guarantee these)
 	if (!config.baseURL || !config.model) {
 		throw new Error(
-			'[PageAgent] LLM configuration required. Please provide: baseURL, model. ' +
+			'[MirxaAgent] LLM configuration required. Please provide: baseURL, model. ' +
 				'See: https://github.com/Mirxa27/Mirxa-agent'
 		)
 	}

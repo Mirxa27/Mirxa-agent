@@ -24,13 +24,13 @@ export default function Footer() {
 							</a>
 						</p>
 						<p className="text-gray-600 dark:text-gray-300 text-xs mt-0.5">
-							© 2026 page-agent. All rights reserved.
+							© 2026 mirxa-agent. All rights reserved.
 						</p>
 					</div>
 
 					<div className="flex items-center">
 						<a
-							href="https://github.com/alibaba/page-agent/blob/main/docs/terms-and-privacy.md"
+							href="https://github.com/Mirxa27/Mirxa-agent/blob/main/docs/terms-and-privacy.md"
 							target="_blank"
 							rel="noopener noreferrer"
 							className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200 text-sm mr-4"
@@ -54,7 +54,7 @@ export default function Footer() {
 							</svg>
 						</a>
 						<a
-							href="https://github.com/alibaba/page-agent"
+							href="https://github.com/Mirxa27/Mirxa-agent"
 							target="_blank"
 							rel="noopener noreferrer"
 							className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200"

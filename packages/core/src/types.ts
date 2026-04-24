@@ -1,8 +1,8 @@
-import type { LLMConfig } from '@page-agent/llms'
+import type { LLMConfig } from '@mirxa-agent/llms'
 
 // @note circular dependency but okay
-import type { PageAgentCore } from './PageAgentCore'
-import type { PageAgentTool } from './tools'
+import type { MirxaAgentCore } from './MirxaAgentCore'
+import type { MirxaAgentTool } from './tools'
 
 /** Supported UI languages */
 export type SupportedLanguage = 'en-US' | 'zh-CN'
@@ -17,15 +17,15 @@ export interface AgentConfig extends LLMConfig {
 	maxSteps?: number
 
 	/**
-	 * Custom tools to extend PageAgent capabilities
+	 * Custom tools to extend MirxaAgent capabilities
 	 * @experimental
 	 * @note You can also override or remove internal tools by using the same name.
-	 * @see PageAgentTool
+	 * @see MirxaAgentTool
 	 *
 	 * @example
 	 * // override internal tool
 	 * import { z } from 'zod/v4'
-	 * import { tool } from 'page-agent'
+	 * import { tool } from 'mirxa-agent'
 	 * const customTools = {
 	 * ask_user: tool({
 	 * 	description:
@@ -33,7 +33,7 @@ export interface AgentConfig extends LLMConfig {
 	 * 	inputSchema: z.object({
 	 * 		question: z.string(),
 	 * 	}),
-	 * 	execute: async function (this: PageAgent, input) {
+	 * 	execute: async function (this: MirxaAgent, input) {
 	 * 		const answer = await do_some_thing(input.question)
 	 * 		return "✅ Received user answer: " + answer
 	 * 	},
@@ -46,7 +46,7 @@ export interface AgentConfig extends LLMConfig {
 	 * 	ask_user: null // never ask user questions
 	 * }
 	 */
-	customTools?: Record<string, PageAgentTool | null>
+	customTools?: Record<string, MirxaAgentTool | null>
 
 	/**
 	 * Instructions to guide the agent's behavior
@@ -76,42 +76,42 @@ export interface AgentConfig extends LLMConfig {
 	/**
 	 * Called before each step execution.
 	 * @experimental
-	 * @param agent - The PageAgentCore instance
+	 * @param agent - The MirxaAgentCore instance
 	 * @param stepCount - Current step number (0-indexed)
 	 */
-	onBeforeStep?: (agent: PageAgentCore, stepCount: number) => Promise<void> | void
+	onBeforeStep?: (agent: MirxaAgentCore, stepCount: number) => Promise<void> | void
 
 	/**
 	 * Called after each step execution.
 	 * @experimental
-	 * @param agent - The PageAgentCore instance
+	 * @param agent - The MirxaAgentCore instance
 	 * @param history - Current history of events
 	 */
-	onAfterStep?: (agent: PageAgentCore, history: HistoricalEvent[]) => Promise<void> | void
+	onAfterStep?: (agent: MirxaAgentCore, history: HistoricalEvent[]) => Promise<void> | void
 
 	/**
 	 * Called before task execution starts.
 	 * @experimental
-	 * @param agent - The PageAgentCore instance
+	 * @param agent - The MirxaAgentCore instance
 	 */
-	onBeforeTask?: (agent: PageAgentCore) => Promise<void> | void
+	onBeforeTask?: (agent: MirxaAgentCore) => Promise<void> | void
 
 	/**
 	 * Called after task execution completes (success or failure).
 	 * @experimental
-	 * @param agent - The PageAgentCore instance
+	 * @param agent - The MirxaAgentCore instance
 	 * @param result - The execution result
 	 */
-	onAfterTask?: (agent: PageAgentCore, result: ExecutionResult) => Promise<void> | void
+	onAfterTask?: (agent: MirxaAgentCore, result: ExecutionResult) => Promise<void> | void
 
 	/**
 	 * Called when the agent is disposed.
 	 * @experimental
 	 * @note This hook can block the disposal process if it's async.
-	 * @param agent - The PageAgentCore instance
+	 * @param agent - The MirxaAgentCore instance
 	 * @param reason - Optional reason for disposal
 	 */
-	onDispose?: (agent: PageAgentCore, reason?: string) => void
+	onDispose?: (agent: MirxaAgentCore, reason?: string) => void
 
 	// page behavior hooks
 
@@ -158,6 +158,43 @@ export interface AgentConfig extends LLMConfig {
 	 * @default 0.4
 	 */
 	stepDelay?: number
+
+	/**
+	 * Adapter for accessing user-attached files (uploaded via the Settings panel).
+	 *
+	 * When provided, the built-in tools `list_attached_files` and `read_attached_file`
+	 * become available to the agent so it can read files the user uploaded.
+	 *
+	 * @example
+	 * import { listAttachedFiles, getAttachedFile, getAttachedFileByName } from '@mirxa-agent/ui'
+	 * attachedFiles: { list: listAttachedFiles, getById: getAttachedFile, getByName: getAttachedFileByName }
+	 */
+	attachedFiles?: AttachedFilesAdapter
+}
+
+/**
+ * Pluggable adapter that exposes user-attached files to the agent's tools.
+ *
+ * `list` returns lightweight metadata. `getById`/`getByName` return the full record
+ * including content, used by the `read_attached_file` tool.
+ */
+export interface AttachedFilesAdapter {
+	list: () => Promise<AttachedFileMetaLike[]>
+	getById: (id: string) => Promise<AttachedFileContentLike | null>
+	getByName: (name: string) => Promise<AttachedFileContentLike | null>
+}
+
+export interface AttachedFileMetaLike {
+	id: string
+	name: string
+	mimeType: string
+	size: number
+	preview?: string
+}
+
+export interface AttachedFileContentLike extends AttachedFileMetaLike {
+	content: string
+	isBinary: boolean
 }
 
 /**

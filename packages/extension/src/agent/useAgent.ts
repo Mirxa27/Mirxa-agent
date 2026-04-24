@@ -7,11 +7,11 @@ import type {
 	ExecutionResult,
 	HistoricalEvent,
 	SupportedLanguage,
-} from '@page-agent/core'
-import type { LLMConfig } from '@page-agent/llms'
+} from '@mirxa-agent/core'
+import type { LLMConfig } from '@mirxa-agent/llms'
 import { useCallback, useEffect, useRef, useState } from 'react'
 
-import { MultiPageAgent } from './MultiPageAgent'
+import { MultiMirxaAgent } from './MultiMirxaAgent'
 import { DEMO_CONFIG, migrateLegacyEndpoint } from './constants'
 
 /** Language preference: undefined means follow system */
@@ -41,7 +41,7 @@ export interface UseAgentResult {
 }
 
 export function useAgent(): UseAgentResult {
-	const agentRef = useRef<MultiPageAgent | null>(null)
+	const agentRef = useRef<MultiMirxaAgent | null>(null)
 	const [status, setStatus] = useState<AgentStatus>('idle')
 	const [history, setHistory] = useState<HistoricalEvent[]>([])
 	const [activity, setActivity] = useState<AgentActivity | null>(null)
@@ -71,7 +71,7 @@ export function useAgent(): UseAgentResult {
 		if (!config) return
 
 		const { systemInstruction, ...agentConfig } = config
-		const agent = new MultiPageAgent({
+		const agent = new MultiMirxaAgent({
 			...agentConfig,
 			instructions: systemInstruction ? { system: systemInstruction } : undefined,
 		})

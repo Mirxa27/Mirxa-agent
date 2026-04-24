@@ -5,23 +5,23 @@ import CodeEditor from '@/components/CodeEditor'
 import { Heading } from '@/components/Heading'
 import { useLanguage } from '@/i18n/context'
 
-export default function PageAgentCoreDocs() {
+export default function MirxaAgentCoreDocs() {
 	const { isZh } = useLanguage()
 
 	return (
 		<div>
-			<h1 className="text-4xl font-bold mb-6">PageAgentCore</h1>
+			<h1 className="text-4xl font-bold mb-6">MirxaAgentCore</h1>
 
 			<p className="text-xl text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
 				{isZh
-					? 'PageAgentCore 是不带 UI 的核心 Agent 类。用于需要自定义 UI 或无头运行的场景。'
-					: 'PageAgentCore is the core Agent class without UI. Use it for custom UI or headless scenarios.'}
+					? 'MirxaAgentCore 是不带 UI 的核心 Agent 类。用于需要自定义 UI 或无头运行的场景。'
+					: 'MirxaAgentCore is the core Agent class without UI. Use it for custom UI or headless scenarios.'}
 			</p>
 
 			{/* When to use */}
 			<section className="mb-10">
 				<Heading id="when-to-use-pageagentcore">
-					{isZh ? '何时使用 PageAgentCore' : 'When to Use PageAgentCore'}
+					{isZh ? '何时使用 MirxaAgentCore' : 'When to Use MirxaAgentCore'}
 				</Heading>
 				<ul className="list-disc list-inside text-gray-600 dark:text-gray-400 space-y-2">
 					<li>{isZh ? '需要自定义 UI 界面' : 'Need a custom UI interface'}</li>
@@ -33,8 +33,8 @@ export default function PageAgentCoreDocs() {
 					</li>
 					<li>
 						{isZh
-							? '将 PageAgent 嵌入其他 Agent 系统'
-							: 'Embedding PageAgent in other agent systems'}
+							? '将 MirxaAgent 嵌入其他 Agent 系统'
+							: 'Embedding MirxaAgent in other agent systems'}
 					</li>
 				</ul>
 			</section>
@@ -44,10 +44,10 @@ export default function PageAgentCoreDocs() {
 				<Heading id="basic-usage">{isZh ? '基本用法' : 'Basic Usage'}</Heading>
 				<CodeEditor
 					language="typescript"
-					code={`import { PageAgentCore } from '@page-agent/core'
-import { PageController } from '@page-agent/page-controller'
+					code={`import { MirxaAgentCore } from '@mirxa-agent/core'
+import { PageController } from '@mirxa-agent/page-controller'
 
-const agent = new PageAgentCore({
+const agent = new MirxaAgentCore({
   pageController: new PageController({ enableMask: true }),
   baseURL: 'https://api.openai.com/v1',
   apiKey: 'your-api-key',
@@ -73,11 +73,11 @@ const result = await agent.execute('Fill in the form with test data')`}
 
 			{/* Configuration */}
 			<section className="mb-10">
-				<Heading id="configuration">PageAgentCoreConfig</Heading>
+				<Heading id="configuration">MirxaAgentCoreConfig</Heading>
 				<p className="text-gray-600 dark:text-gray-400 mb-4">
 					{isZh
-						? 'PageAgentCoreConfig = AgentConfig & { pageController: PageController }。AgentConfig 包含以下配置项：'
-						: 'PageAgentCoreConfig = AgentConfig & { pageController: PageController }. AgentConfig contains the following options:'}
+						? 'MirxaAgentCoreConfig = AgentConfig & { pageController: PageController }。AgentConfig 包含以下配置项：'
+						: 'MirxaAgentCoreConfig = AgentConfig & { pageController: PageController }. AgentConfig contains the following options:'}
 				</p>
 
 				{/* PageController */}
@@ -194,7 +194,7 @@ const result = await agent.execute('Fill in the form with test data')`}
 						},
 						{
 							name: 'customTools',
-							type: 'Record<string, PageAgentTool | null>',
+							type: 'Record<string, MirxaAgentTool | null>',
 							status: 'experimental',
 							description: isZh
 								? '自定义工具，可扩展或覆盖内置工具。设为 null 可移除工具。'
@@ -321,7 +321,7 @@ const result = await agent.execute('Fill in the form with test data')`}
 						},
 						{
 							name: 'tools',
-							type: 'Map<string, PageAgentTool>',
+							type: 'Map<string, MirxaAgentTool>',
 							description: isZh ? '可用工具的 Map' : 'Map of available tools',
 						},
 						{
@@ -372,11 +372,11 @@ const result = await agent.execute('Fill in the form with test data')`}
 				<p className="text-gray-600 dark:text-gray-400 mb-4">
 					{isZh ? (
 						<>
-							PageAgentCore 继承自 <TypeRef>EventTarget</TypeRef>，提供以下事件：
+							MirxaAgentCore 继承自 <TypeRef>EventTarget</TypeRef>，提供以下事件：
 						</>
 					) : (
 						<>
-							PageAgentCore extends <TypeRef>EventTarget</TypeRef> and provides the following
+							MirxaAgentCore extends <TypeRef>EventTarget</TypeRef> and provides the following
 							events:
 						</>
 					)}

@@ -59,7 +59,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Features
 
-- **Beta MCP support** - New `@page-agent/mcp` package lets MCP clients such as Claude Desktop and Copilot control the browser through the Page Agent extension
+- **Beta MCP support** - New `@mirxa-agent/mcp` package lets MCP clients such as Claude Desktop and Copilot control the browser through the Mirxa Agent extension
 - **Better iframe handling** - Same-origin iframe elements are handled more reliably during DOM extraction and actions
 - **Extension history workflows** - Users can rerun past tasks, export history sessions as JSON, and approve MCP-triggered tasks before execution
 
@@ -84,8 +84,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Breaking Changes
 
-- **`data-browser-use-ignore` → `data-page-agent-ignore`** - DOM ignore attribute renamed to match the project identity
-- **Config types restructured** - `PageAgentConfig` split into `AgentConfig` + `PageAgentCoreConfig`; config definitions moved from `config/index.ts` to `types.ts`
+- **`data-browser-use-ignore` → `data-mirxa-agent-ignore`** - DOM ignore attribute renamed to match the project identity
+- **Config types restructured** - `MirxaAgentConfig` split into `AgentConfig` + `MirxaAgentCoreConfig`; config definitions moved from `config/index.ts` to `types.ts`
 - **Zod v3/v4 dual support** - Libraries now accept both `zod@^3.25` and `zod@^4.0` as peer dependencies
 
 ### Features
@@ -103,7 +103,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Extension v0.1.9
 
-> PageAgent 1.5.1
+> MirxaAgent 1.5.1
 
 - **Advanced config panel** - New collapsible section exposing Max Steps, System Instruction, and experimental `llms.txt` toggle
 - Streamlined User Auth Token description
@@ -125,8 +125,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Unified zod imports (`* as z`) across all packages for consistency
 - Better Zod error formatting with `z.prettifyError()` in LLM client
-- Exported `InvokeError` and `InvokeErrorType` as values (not just types) from `@page-agent/llms`
-- Exported `SupportedLanguage` type from `@page-agent/core`
+- Exported `InvokeError` and `InvokeErrorType` as values (not just types) from `@mirxa-agent/llms`
+- Exported `SupportedLanguage` type from `@mirxa-agent/core`
 
 ### Extension v0.1.8
 
@@ -141,7 +141,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Breaking Changes
 
-- **Lifecycle: `stop()` vs `dispose()`** - New `stop()` method to cancel the current task while keeping the agent reusable. `dispose()` is now terminal — a disposed agent cannot be reused. This affects both `PageAgentCore` and `PanelAgentAdapter`.
+- **Lifecycle: `stop()` vs `dispose()`** - New `stop()` method to cancel the current task while keeping the agent reusable. `dispose()` is now terminal — a disposed agent cannot be reused. This affects both `MirxaAgentCore` and `PanelAgentAdapter`.
 
 ### Features
 
@@ -200,14 +200,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 🎉 First Stable Release
 
-PageAgent is now ready for production use. The API is stable and breaking changes will follow semantic versioning.
+MirxaAgent is now ready for production use. The API is stable and breaking changes will follow semantic versioning.
 
 ### Features
 
 #### Core
 
-- **PageAgent** - Main entry class with built-in UI Panel
-- **PageAgentCore** - Headless agent class for custom UI or programmatic use
+- **MirxaAgent** - Main entry class with built-in UI Panel
+- **MirxaAgentCore** - Headless agent class for custom UI or programmatic use
 - **DOM Analysis** - Text-based DOM extraction with high-intensity dehydration
 - **LLM Support** - Works with OpenAI, Claude, DeepSeek, Qwen, and other OpenAI-compatible APIs
 - **Tool System** - Built-in tools for click, input, scroll, select, and more
@@ -232,18 +232,18 @@ PageAgent is now ready for production use. The API is stable and breaking change
 
 | Package                       | Description                        |
 | ----------------------------- | ---------------------------------- |
-| `page-agent`                  | Main entry with UI Panel           |
-| `@page-agent/core`            | Core agent logic without UI        |
-| `@page-agent/llms`            | LLM client with retry logic        |
-| `@page-agent/page-controller` | DOM operations and visual feedback |
-| `@page-agent/ui`              | Panel and i18n                     |
+| `mirxa-agent`                  | Main entry with UI Panel           |
+| `@mirxa-agent/core`            | Core agent logic without UI        |
+| `@mirxa-agent/llms`            | LLM client with retry logic        |
+| `@mirxa-agent/page-controller` | DOM operations and visual feedback |
+| `@mirxa-agent/ui`              | Panel and i18n                     |
 
 ### Known Limitations
 
 - Single-page application only (cannot navigate across pages)
 - No visual recognition (relies on DOM structure)
 - Limited interaction support (no hover, drag-drop, canvas operations)
-- See [Limitations](https://alibaba.github.io/page-agent/docs/introduction/limitations) for details
+- See [Limitations](https://Mirxa27.github.io/Mirxa-agent/docs/introduction/limitations) for details
 
 ### Acknowledgments
 

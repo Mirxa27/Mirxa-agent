@@ -7,7 +7,7 @@ import { defineConfig } from 'vite'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
-console.log(chalk.cyan(`📦 Building @page-agent/llms`))
+console.log(chalk.cyan(`📦 Building @mirxa-agent/llms`))
 
 export default defineConfig({
 	clearScreen: false,
@@ -26,8 +26,8 @@ export default defineConfig({
 	build: {
 		lib: {
 			entry: resolve(__dirname, 'src/index.ts'),
-			name: 'PageAgentLLMs',
-			fileName: 'page-agent-llms',
+			name: 'MirxaAgentLLMs',
+			fileName: 'mirxa-agent-llms',
 			formats: ['es'],
 		},
 		outDir: resolve(__dirname, 'dist', 'lib'),

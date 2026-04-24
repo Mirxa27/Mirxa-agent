@@ -1,8 +1,8 @@
-import { type AgentConfig, PageAgentCore } from '@page-agent/core'
+import { type AgentConfig, MirxaAgentCore } from '@mirxa-agent/core'
 
-import { createFileTools } from './fileTools'
 import { RemotePageController } from './RemotePageController'
 import { TabsController } from './TabsController'
+import { createFileTools } from './fileTools'
 import SYSTEM_PROMPT from './system_prompt.md?raw'
 import { createTabTools } from './tabTools'
 
@@ -12,18 +12,18 @@ function detectLanguage(): 'en-US' | 'zh-CN' {
 	return lang.startsWith('zh') ? 'zh-CN' : 'en-US'
 }
 
-interface MultiPageAgentConfig extends AgentConfig {
+interface MultiMirxaAgentConfig extends AgentConfig {
 	includeInitialTab?: boolean
 	experimentalIncludeAllTabs?: boolean
 }
 
 /**
- * MultiPageAgent
+ * MultiMirxaAgent
  * - use with extension
  * - can be used from a side panel or a content script
  */
-export class MultiPageAgent extends PageAgentCore {
-	constructor(config: MultiPageAgentConfig) {
+export class MultiMirxaAgent extends MirxaAgentCore {
+	constructor(config: MultiMirxaAgentConfig) {
 		// multi page controller
 		const tabsController = new TabsController()
 		const pageController = new RemotePageController(tabsController)

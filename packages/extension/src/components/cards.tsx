@@ -5,7 +5,7 @@ import type {
 	HistoricalEvent,
 	ObservationEvent,
 	RetryEvent,
-} from '@page-agent/core'
+} from '@mirxa-agent/core'
 import {
 	CheckCircle,
 	Eye,

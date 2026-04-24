@@ -16,6 +16,7 @@ const enUS = {
 			expand: 'Expand history',
 			collapse: 'Collapse history',
 			step: 'Step {{number}}',
+			settings: 'Settings',
 		},
 		tools: {
 			clicking: 'Clicking element [{{index}}]...',
@@ -64,6 +65,7 @@ const zhCN = {
 			expand: '展开历史',
 			collapse: '收起历史',
 			step: '步骤 {{number}}',
+			settings: '设置',
 		},
 		tools: {
 			clicking: '正在点击元素 [{{index}}]...',

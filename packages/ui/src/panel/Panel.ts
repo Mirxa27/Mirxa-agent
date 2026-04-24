@@ -1,4 +1,5 @@
 import { I18n, type SupportedLanguage } from '../i18n'
+import { SettingsDrawer, type SettingsDrawerCallbacks } from '../settings/SettingsDrawer'
 import { truncate } from '../utils'
 import { createCard, createReflectionLines } from './cards'
 import type { AgentActivity, PanelAgentAdapter } from './types'
@@ -15,6 +16,16 @@ export interface PanelConfig {
 	 * @default true
 	 */
 	promptForNextTask?: boolean
+	/**
+	 * Show the in-panel settings drawer (provider config + file manager).
+	 * @default true
+	 */
+	showSettings?: boolean
+	/**
+	 * Optional callbacks forwarded to the settings drawer.
+	 * Use this to react to LLM settings changes (e.g. to hot-reload the agent).
+	 */
+	settingsCallbacks?: SettingsDrawerCallbacks
 }
 
 /**
@@ -34,6 +45,8 @@ export class Panel {
 	#historySection: HTMLElement
 	#expandButton: HTMLElement
 	#actionButton: HTMLElement
+	#settingsButton: HTMLElement | null = null
+	#settingsDrawer: SettingsDrawer | null = null
 	#inputSection: HTMLElement
 	#taskInput: HTMLInputElement
 
@@ -77,6 +90,7 @@ export class Panel {
 		this.#historySection = this.#wrapper.querySelector(`.${styles.historySection}`)!
 		this.#expandButton = this.#wrapper.querySelector(`.${styles.expandButton}`)!
 		this.#actionButton = this.#wrapper.querySelector(`.${styles.stopButton}`)!
+		this.#settingsButton = this.#wrapper.querySelector(`.${styles.settingsButton}`)
 		this.#inputSection = this.#wrapper.querySelector(`.${styles.inputSectionWrapper}`)!
 		this.#taskInput = this.#wrapper.querySelector(`.${styles.taskInput}`)!
 
@@ -246,6 +260,8 @@ export class Panel {
 		// Clean up UI
 		this.#isWaitingForUserAnswer = false
 		this.#stopHeaderUpdateLoop()
+		this.#settingsDrawer?.dispose()
+		this.#settingsDrawer = null
 		this.wrapper.remove()
 	}
 
@@ -282,6 +298,16 @@ export class Panel {
 		} else {
 			this.#agent.dispose()
 		}
+	}
+
+	/**
+	 * Open (or lazily create) the settings drawer.
+	 */
+	#openSettings(): void {
+		if (!this.#settingsDrawer) {
+			this.#settingsDrawer = new SettingsDrawer(this.#wrapper, this.#config.settingsCallbacks ?? {})
+		}
+		this.#settingsDrawer.show()
 	}
 
 	/**
@@ -371,10 +397,10 @@ export class Panel {
 	#createWrapper(): HTMLElement {
 		const taskInputMaxLength = 1000
 		const wrapper = document.createElement('div')
-		wrapper.id = 'page-agent-runtime_agent-panel'
+		wrapper.id = 'mirxa-agent-runtime_agent-panel'
 		wrapper.className = styles.wrapper
 		wrapper.setAttribute('data-browser-use-ignore', 'true')
-		wrapper.setAttribute('data-page-agent-ignore', 'true')
+		wrapper.setAttribute('data-mirxa-agent-ignore', 'true')
 
 		wrapper.innerHTML = `
 			<div class="${styles.background}"></div>
@@ -394,6 +420,11 @@ export class Panel {
 					<div class="${styles.statusText}">${this.#i18n.t('ui.panel.ready')}</div>
 				</div>
 				<div class="${styles.controls}">
+					${
+						this.#config.showSettings !== false
+							? `<button class="${styles.controlButton} ${styles.settingsButton}" title="${this.#i18n.t('ui.panel.settings')}" aria-label="${this.#i18n.t('ui.panel.settings')}">⚙</button>`
+							: ''
+					}
 					<button class="${styles.controlButton} ${styles.expandButton}" title="${this.#i18n.t('ui.panel.expand')}">
 						▼
 					</button>
@@ -439,6 +470,14 @@ export class Panel {
 			e.stopPropagation()
 			this.#handleActionButton()
 		})
+
+		// Settings button (opens the settings drawer)
+		if (this.#settingsButton) {
+			this.#settingsButton.addEventListener('click', (e) => {
+				e.stopPropagation()
+				this.#openSettings()
+			})
+		}
 
 		// Submit on Enter key in input field
 		this.#taskInput.addEventListener('keydown', (e) => {

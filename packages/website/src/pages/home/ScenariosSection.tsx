@@ -31,15 +31,15 @@ export default function ScenariosSection() {
 							<div className="p-6 pb-4">
 								<div className="rounded-xl bg-gray-950 p-4 font-mono text-xs leading-6 text-gray-300 overflow-hidden shadow-inner">
 									<div>
-										<span className="text-purple-400">import</span> {'{ PageAgent }'}{' '}
+										<span className="text-purple-400">import</span> {'{ MirxaAgent }'}{' '}
 										<span className="text-purple-400">from</span>{' '}
-										<span className="text-emerald-400">&apos;page-agent&apos;</span>
+										<span className="text-emerald-400">&apos;mirxa-agent&apos;</span>
 									</div>
 									<div className="mt-2">
 										<span className="text-purple-400">const</span>{' '}
 										<span className="text-blue-300">copilot</span> ={' '}
 										<span className="text-purple-400">new</span>{' '}
-										<span className="text-yellow-300">PageAgent</span>
+										<span className="text-yellow-300">MirxaAgent</span>
 										{'({'}
 									</div>
 									<div className="pl-4">
