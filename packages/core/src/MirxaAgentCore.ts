@@ -103,32 +103,8 @@ export class MirxaAgentCore extends EventTarget {
 		this.tools = new Map(tools)
 		this.pageController = config.pageController
 
-		// Listen to LLM retry events
-		this.#llm.addEventListener('retry', (e) => {
-			const { attempt, maxAttempts } = (e as CustomEvent).detail
-			this.#emitActivity({ type: 'retrying', attempt, maxAttempts })
-			// Also push to history for panel rendering
-			this.history.push({
-				type: 'retry',
-				message: `LLM retry attempt ${attempt} of ${maxAttempts}`,
-				attempt,
-				maxAttempts,
-			})
-			this.#emitHistoryChange()
-		})
-		this.#llm.addEventListener('error', (e) => {
-			const error = (e as CustomEvent).detail.error as Error | InvokeError
-			if ((error as any)?.rawError?.name === 'AbortError') return
-			const message = String(error)
-			this.#emitActivity({ type: 'error', message })
-			// Also push to history for panel rendering
-			this.history.push({
-				type: 'error',
-				message,
-				rawResponse: (error as InvokeError).rawResponse,
-			})
-			this.#emitHistoryChange()
-		})
+		// Listen to LLM retry/error events
+		this.#wireLLMEvents()
 
 		if (this.config.customTools) {
 			for (const [name, tool] of Object.entries(this.config.customTools)) {
@@ -143,11 +119,64 @@ export class MirxaAgentCore extends EventTarget {
 		if (!this.config.experimentalScriptExecutionTool) {
 			this.tools.delete('execute_javascript')
 		}
+
+		if (!this.config.attachedFiles) {
+			this.tools.delete('list_attached_files')
+			this.tools.delete('read_attached_file')
+		}
 	}
 
 	/** Get current agent status */
 	get status(): AgentStatus {
 		return this.#status
+	}
+
+	/**
+	 * Update the LLM connection settings at runtime (e.g. when the user
+	 * changes provider/API key/model in the Settings panel).
+	 *
+	 * The new client takes effect on the next LLM invocation. In-flight
+	 * invocations are not interrupted.
+	 */
+	setLLMConfig(patch: Partial<Pick<AgentConfig, 'baseURL' | 'apiKey' | 'model'>>): void {
+		const next = {
+			...this.config,
+			baseURL: patch.baseURL ?? this.config.baseURL,
+			apiKey: patch.apiKey ?? this.config.apiKey,
+			model: patch.model ?? this.config.model,
+		}
+		// Re-create LLM with new config and re-attach event listeners.
+		this.config.baseURL = next.baseURL
+		this.config.apiKey = next.apiKey
+		this.config.model = next.model
+		this.#llm = new LLM(next)
+		this.#wireLLMEvents()
+	}
+
+	#wireLLMEvents(): void {
+		this.#llm.addEventListener('retry', (e) => {
+			const { attempt, maxAttempts } = (e as CustomEvent).detail
+			this.#emitActivity({ type: 'retrying', attempt, maxAttempts })
+			this.history.push({
+				type: 'retry',
+				message: `LLM retry attempt ${attempt} of ${maxAttempts}`,
+				attempt,
+				maxAttempts,
+			})
+			this.#emitHistoryChange()
+		})
+		this.#llm.addEventListener('error', (e) => {
+			const error = (e as CustomEvent).detail.error as Error | InvokeError
+			if ((error as any)?.rawError?.name === 'AbortError') return
+			const message = String(error)
+			this.#emitActivity({ type: 'error', message })
+			this.history.push({
+				type: 'error',
+				message,
+				rawResponse: (error as InvokeError).rawResponse,
+			})
+			this.#emitHistoryChange()
+		})
 	}
 
 	/** Emit statuschange event */

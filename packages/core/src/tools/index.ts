@@ -233,5 +233,61 @@ tools.set(
 	})
 )
 
+tools.set(
+	'list_attached_files',
+	tool({
+		description:
+			"List user-attached files available to this task (uploaded via the Mirxa Agent settings panel). Returns each file's name, mime type, size and a short preview. Use `read_attached_file` to read the full content of a specific file.",
+		inputSchema: z.object({}),
+		execute: async function (this: MirxaAgentCore, _input) {
+			const adapter = this.config.attachedFiles
+			if (!adapter) return 'No attached-files adapter configured.'
+			const files = await adapter.list()
+			if (files.length === 0) return 'No files attached.'
+			return files
+				.map(
+					(f) =>
+						`- ${f.name} (${f.mimeType}, ${f.size} bytes)${
+							f.preview ? `\n  preview: ${f.preview}` : ''
+						}`
+				)
+				.join('\n')
+		},
+	})
+)
+
+const READ_FILE_MAX_CHARS = 20_000
+
+tools.set(
+	'read_attached_file',
+	tool({
+		description:
+			'Read the full content of a user-attached file by its `name` (or `id`). Use `list_attached_files` first to discover available files. Output is truncated to ~20K characters; for binary files the content is base64-encoded.',
+		inputSchema: z
+			.object({
+				name: z.string().optional(),
+				id: z.string().optional(),
+			})
+			.refine((v) => Boolean(v.name || v.id), {
+				message: 'Provide either `name` or `id`.',
+			}),
+		execute: async function (this: MirxaAgentCore, input) {
+			const adapter = this.config.attachedFiles
+			if (!adapter) return 'No attached-files adapter configured.'
+			const record = input.id
+				? await adapter.getById(input.id)
+				: await adapter.getByName(input.name!)
+			if (!record) return `No attached file matched ${JSON.stringify(input)}.`
+			const truncated = record.content.length > READ_FILE_MAX_CHARS
+			const body = truncated
+				? record.content.slice(0, READ_FILE_MAX_CHARS) +
+					`\n…[truncated ${record.content.length - READ_FILE_MAX_CHARS} chars]`
+				: record.content
+			const tag = record.isBinary ? 'base64' : 'text'
+			return `# ${record.name} (${record.mimeType}, ${record.size} bytes, ${tag})\n\n${body}`
+		},
+	})
+)
+
 // @todo upload_file
 // @todo extract_structured_data

@@ -218,6 +218,11 @@
 				background: rgba(239, 68, 68, 0.3);
 			}
 		}
+
+		.settingsButton {
+			font-size: 14px;
+			line-height: 1;
+		}
 	}
 }
 

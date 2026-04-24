@@ -158,6 +158,43 @@ export interface AgentConfig extends LLMConfig {
 	 * @default 0.4
 	 */
 	stepDelay?: number
+
+	/**
+	 * Adapter for accessing user-attached files (uploaded via the Settings panel).
+	 *
+	 * When provided, the built-in tools `list_attached_files` and `read_attached_file`
+	 * become available to the agent so it can read files the user uploaded.
+	 *
+	 * @example
+	 * import { listAttachedFiles, getAttachedFile, getAttachedFileByName } from '@mirxa-agent/ui'
+	 * attachedFiles: { list: listAttachedFiles, getById: getAttachedFile, getByName: getAttachedFileByName }
+	 */
+	attachedFiles?: AttachedFilesAdapter
+}
+
+/**
+ * Pluggable adapter that exposes user-attached files to the agent's tools.
+ *
+ * `list` returns lightweight metadata. `getById`/`getByName` return the full record
+ * including content, used by the `read_attached_file` tool.
+ */
+export interface AttachedFilesAdapter {
+	list: () => Promise<AttachedFileMetaLike[]>
+	getById: (id: string) => Promise<AttachedFileContentLike | null>
+	getByName: (name: string) => Promise<AttachedFileContentLike | null>
+}
+
+export interface AttachedFileMetaLike {
+	id: string
+	name: string
+	mimeType: string
+	size: number
+	preview?: string
+}
+
+export interface AttachedFileContentLike extends AttachedFileMetaLike {
+	content: string
+	isBinary: boolean
 }
 
 /**

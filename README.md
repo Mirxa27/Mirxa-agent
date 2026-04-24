@@ -1,119 +1,144 @@
 # Mirxa Agent
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://img.alicdn.com/imgextra/i4/O1CN01qKig1P1FnhpFKNdi6_!!6000000000532-2-tps-1280-256.png">
-  <img alt="Mirxa Agent Banner" src="https://img.alicdn.com/imgextra/i1/O1CN01NCMKXj1Gn4tkFTsxf_!!6000000000666-2-tps-1280-256.png">
-</picture>
+> The GUI agent that lives inside your webpage. Control any web UI with natural language — no extension, no headless browser, no Python.
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-auto.svg)](https://opensource.org/licenses/MIT) [![TypeScript](https://img.shields.io/badge/%3C%2F%3E-TypeScript-%230074c1.svg)](http://www.typescriptlang.org/) [![Bundle Size](https://img.shields.io/bundlephobia/minzip/mirxa-agent)](https://bundlephobia.com/package/mirxa-agent) [![Downloads](https://img.shields.io/npm/dt/mirxa-agent.svg)](https://www.npmjs.com/package/mirxa-agent) [![GitHub stars](https://img.shields.io/github/stars/Mirxa27/Mirxa-agent.svg)](https://github.com/Mirxa27/Mirxa-agent)
-
-The GUI Agent Living in Your Webpage. Control web interfaces with natural language.
+[![License: MIT](https://img.shields.io/badge/License-MIT-auto.svg)](https://opensource.org/licenses/MIT)
+[![TypeScript](https://img.shields.io/badge/%3C%2F%3E-TypeScript-%230074c1.svg)](http://www.typescriptlang.org/)
+[![GitHub stars](https://img.shields.io/github/stars/Mirxa27/Mirxa-agent.svg)](https://github.com/Mirxa27/Mirxa-agent)
 
 🌐 **English** | [中文](./docs/README-zh.md)
 
-<a href="https://Mirxa27.github.io/Mirxa-agent/" target="_blank"><b>🚀 Demo</b></a> | <a href="https://Mirxa27.github.io/Mirxa-agent/docs/introduction/overview" target="_blank"><b>📖 Docs</b></a> | <a href="https://news.ycombinator.com/item?id=47264138" target="_blank"><b>📢 HN Discussion</b></a> | <a href="https://x.com/simonluvramen" target="_blank"><b>𝕏 Follow on X</b></a>
-
-<video id="demo-video" src="https://github.com/user-attachments/assets/a1f2eae2-13fb-4aae-98cf-a3fc1620a6c2" controls crossorigin muted></video>
-
 ---
 
-## ✨ Features
+## What is Mirxa Agent?
 
-- **🎯 Easy integration**
-    - No need for `browser extension` / `python` / `headless browser`.
-    - Just in-page javascript. Everything happens in your web page.
-- **📖 Text-based DOM manipulation**
-    - No screenshots. No multi-modal LLMs or special permissions needed.
-- **🧠 Bring your own LLMs**
-- **🐙 Optional [chrome extension](https://Mirxa27.github.io/Mirxa-agent/docs/features/chrome-extension) for multi-page tasks.**
-    - And an [MCP Server (Beta)](https://Mirxa27.github.io/Mirxa-agent/docs/features/mcp-server) to control it from outside
+Mirxa Agent is an embedded, in-page GUI agent for web applications. You drop it into any site and your users can drive the UI with plain language ("fill out this form", "find me a flight to Tokyo next Friday under $800", "export the last 30 days of orders to CSV"). It works by reading the live DOM, asking an LLM what to do next, and clicking / typing / scrolling on real elements — all from within the page itself.
 
-## 💡 Use Cases
+**Why it's different**
 
-- **SaaS AI Copilot** — Ship an AI copilot in your product in lines of code. No backend rewrite.
-- **Smart Form Filling** — Turn 20-click workflows into one sentence. Perfect for ERP, CRM, and admin systems.
-- **Accessibility** — Make any web app accessible through natural language. Voice commands, screen readers, zero barrier.
-- **Multi-page Agent** — Extend your own web agent's reach across browser tabs [chrome extension](https://Mirxa27.github.io/Mirxa-agent/docs/features/chrome-extension).
-- **MCP** - Allow your agent clients to control your browser.
+- **No infrastructure** — pure in-page JavaScript. No browser extension, no headless browser, no backend service.
+- **Text-based DOM** — uses a structured DOM representation, not screenshots. Works with any text-only LLM.
+- **Bring your own LLM** — any OpenAI-compatible endpoint (OpenAI, Anthropic via proxy, Qwen, DeepSeek, local Ollama, vLLM, etc.).
+- **Built-in panel UI** — ready-to-use chat panel with provider config, file uploads, and history.
+- **Optional Chrome extension** for cross-tab tasks, plus an MCP server to drive the browser from outside.
 
-## 🚀 Quick Start
+## Quick Start
 
-### One-line integration
-
-Fastest way to try MirxaAgent with our free Demo LLM:
+### Option 1 — Try it instantly (script tag)
 
 ```html
-<script src="{URL}" crossorigin="true"></script>
+<script src="https://cdn.jsdelivr.net/npm/mirxa-agent@1.8.0/dist/iife/mirxa-agent.demo.js" crossorigin="true"></script>
 ```
 
-> **⚠️ For technical evaluation only.** This demo CDN uses our free [testing LLM API](https://Mirxa27.github.io/Mirxa-agent/docs/features/models#free-testing-api). By using it, you agree to its [terms](https://github.com/Mirxa27/Mirxa-agent/blob/main/docs/terms-and-privacy.md).
+Drop the line above into any HTML page and you'll see the Mirxa Agent panel appear in the corner. The demo build ships with a public testing LLM so you can try it without an API key.
 
-| Mirrors | URL                                                                                |
-| ------- | ---------------------------------------------------------------------------------- |
-| Global  | https://cdn.jsdelivr.net/npm/mirxa-agent@1.8.0/dist/iife/mirxa-agent.demo.js         |
-| China   | https://registry.npmmirror.com/mirxa-agent/1.8.0/files/dist/iife/mirxa-agent.demo.js |
+> ⚠️ The bundled testing endpoint is for evaluation only. For production, configure your own provider (next section).
 
-### NPM Installation
+### Option 2 — Install via npm
 
 ```bash
 npm install mirxa-agent
 ```
 
-```javascript
+```ts
 import { MirxaAgent } from 'mirxa-agent'
 
 const agent = new MirxaAgent({
-    model: 'qwen3.5-plus',
-    baseURL: 'https://dashscope.aliyuncs.com/compatible-mode/v1',
-    apiKey: 'YOUR_API_KEY',
+    baseURL: 'https://api.openai.com/v1',
+    apiKey: process.env.OPENAI_API_KEY,
+    model: 'gpt-4o-mini',
     language: 'en-US',
 })
 
-await agent.execute('Click the login button')
+await agent.execute('Click the login button and sign in as guest')
 ```
 
-For more programmatic usage, see [📖 Documentations](https://Mirxa27.github.io/Mirxa-agent/docs/introduction/overview).
+That's it — the agent renders a panel into the document and is ready to take instructions either programmatically (`agent.execute(...)`) or from the user via the panel input.
 
-## 🌟 Awesome Mirxa Agent
+## Configure your LLM provider
 
-Built something cool with MirxaAgent? Add it here! Open a PR to share your project.
+Mirxa Agent talks to any OpenAI-compatible `/v1/chat/completions` endpoint. Common setups:
 
-> These are community projects — not maintained or endorsed by us. Use at your own discretion.
+| Provider             | `baseURL`                                              | Example `model`         |
+| -------------------- | ------------------------------------------------------ | ----------------------- |
+| OpenAI               | `https://api.openai.com/v1`                            | `gpt-4o-mini`           |
+| Anthropic (proxy)    | your proxy URL                                         | `claude-3-5-sonnet`     |
+| Alibaba DashScope    | `https://dashscope.aliyuncs.com/compatible-mode/v1`    | `qwen3.5-plus`          |
+| DeepSeek             | `https://api.deepseek.com/v1`                          | `deepseek-chat`         |
+| Local Ollama         | `http://localhost:11434/v1`                            | `llama3.1`              |
+| vLLM / LM Studio     | `http://localhost:8000/v1`                             | _your served model_     |
 
-| Project  | Description                                                 |
-| -------- | ----------------------------------------------------------- |
-| _Yours?_ | [Open a PR](https://github.com/Mirxa27/Mirxa-agent/pulls) 🙌 |
+You can also configure the provider, API key, and model interactively from the **Settings** panel inside the agent UI — including auto-fetching the available models list from the provider's `/v1/models` endpoint.
 
-## 🤝 Contributing
+## Settings panel features
 
-We welcome contributions from the community! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines and [docs/developer-guide.md](docs/developer-guide.md) for local development workflows.
+The in-page panel exposes everything end-users need without code changes:
 
-Please read the [maintainer's note](https://github.com/Mirxa27/Mirxa-agent/issues/349) on principles and current state.
+- **Provider config** — `baseURL`, `apiKey`, `model` selector with one-click "Fetch models" against `GET {baseURL}/models`.
+- **File manager** — upload reference files (text, JSON, CSV, markdown, etc.) that the agent can read while performing tasks. Stored locally in IndexedDB; never sent unless the agent decides to read one.
+- **Language** — UI language toggle.
+- **Persisted to `localStorage`** — settings survive reloads.
 
-Contributions generated entirely by **bots or AI** without substantial human involvement will **not be accepted**.
+To use uploaded files in a task, the agent has built-in tools `list_attached_files` and `read_attached_file` that surface the file metadata and content. Just reference a file by name in your prompt: _"Use `customers.csv` and write a summary of churn by region"_.
 
-## ⚖️ License
+## Optional: Chrome extension & MCP server
 
-[MIT License](LICENSE)
+For multi-tab automation or driving the browser from outside (e.g. an external agent over MCP):
 
-## 👏 Acknowledgments
+- **Extension** — see [`packages/extension`](packages/extension/) — provides a side-panel agent that controls every tab.
+- **MCP server** — see [`packages/mcp`](packages/mcp/) — exposes the extension over the Model Context Protocol so any MCP-aware client (Claude Desktop, Cursor, etc.) can drive your browser.
 
-This project builds upon the excellent work of **[`browser-use`](https://github.com/browser-use/browser-use)**.
+Full docs: <https://Mirxa27.github.io/Mirxa-agent/>
 
-`MirxaAgent` is designed for **client-side web enhancement**, not server-side automation.
+## Repository layout
+
+This is an npm-workspaces monorepo:
 
 ```
-DOM processing components and prompt are derived from browser-use:
-
-Browser Use <https://github.com/browser-use/browser-use>
-Copyright (c) 2024 Gregor Zunic
-Licensed under the MIT License
-
-We gratefully acknowledge the browser-use project and its contributors for their
-excellent work on web automation and DOM interaction patterns that helped make
-this project possible.
+packages/
+├── mirxa-agent/        # main npm package — MirxaAgent (panel + controller + demo)
+├── core/               # @mirxa-agent/core — headless MirxaAgentCore
+├── llms/               # @mirxa-agent/llms — OpenAI-compatible LLM client
+├── page-controller/    # @mirxa-agent/page-controller — DOM ops + visual feedback
+├── ui/                 # @mirxa-agent/ui — Panel + i18n
+├── extension/          # @mirxa-agent/ext — Chrome extension (WXT + React)
+├── mcp/                # @mirxa-agent/mcp — MCP server
+└── website/            # @mirxa-agent/website — docs site
 ```
 
----
+## Development
 
-**⭐ Star this repo if you find MirxaAgent helpful!**
+```bash
+# install everything
+npm install
+
+# typecheck the whole monorepo
+npm run typecheck
+
+# lint
+npm run lint
+
+# build all libraries (parallel)
+npm run build:libs
+
+# website dev server
+npm start
+
+# build the extension
+npm run build:ext
+
+# extension dev mode (loads into a chrome profile)
+npm run dev:ext
+```
+
+Requires Node `>= 22.13` (the engines field warns on lower versions but most workflows still work on 20.x).
+
+See [`AGENTS.md`](AGENTS.md) for the architecture overview and [`CONTRIBUTING.md`](CONTRIBUTING.md) for contribution guidelines.
+
+## License
+
+[MIT](LICENSE)
+
+## Acknowledgments
+
+DOM processing components and the agent prompt structure are derived from [`browser-use`](https://github.com/browser-use/browser-use) (MIT, © 2024 Gregor Zunic). Mirxa Agent is targeted at **client-side web enhancement** rather than server-side scraping — but the underlying techniques are very much built on browser-use's shoulders.
