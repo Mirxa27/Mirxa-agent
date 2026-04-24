@@ -30,7 +30,8 @@ export function FileManager() {
 				try {
 					const content = await readFileAsBase64(file)
 					await saveFile({ name: file.name, type: file.type, size: file.size, content })
-				} catch {
+				} catch (err) {
+					console.error(`[FileManager] Failed to upload file "${file.name}":`, err)
 					failed.push(file.name)
 				}
 			}
@@ -110,7 +111,11 @@ function readFileAsBase64(file: File): Promise<string> {
 			const result = reader.result as string
 			const commaIndex = result.indexOf(',')
 			if (commaIndex === -1) {
-				reject(new Error('Unexpected FileReader result format'))
+				reject(
+					new Error(
+						`Invalid data URL format for file: expected comma separator after MIME type, got "${result.slice(0, 30)}"`
+					)
+				)
 				return
 			}
 			resolve(result.slice(commaIndex + 1))

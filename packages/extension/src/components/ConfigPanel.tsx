@@ -105,15 +105,22 @@ export function ConfigPanel({ config, onSave, onClose }: ConfigPanelProps) {
 			setIsFetchingModels(true)
 			setModelFetchError(null)
 			try {
-				const url = baseURL.replace(/\/$/, '') + '/models'
+				const url = new URL('models', baseURL.replace(/\/$/, '') + '/').toString()
 				const headers: Record<string, string> = {}
 				if (apiKey) headers.Authorization = `Bearer ${apiKey}`
 				const res = await fetch(url, { headers })
-				if (!res.ok) throw new Error(`HTTP ${res.status}`)
+				if (!res.ok) {
+					const body = await res.text().catch(() => '')
+					throw new Error(
+						`HTTP ${res.status} ${res.statusText}${body ? ': ' + body.slice(0, 200) : ''}`
+					)
+				}
 				const json = await res.json()
-				const ids: string[] = (json?.data ?? [])
-					.map((m: { id: string }) => m.id)
-					.filter(Boolean)
+				if (!Array.isArray(json?.data))
+					throw new Error('Unexpected response format from /models endpoint')
+				const ids: string[] = json.data
+					.map((m: { id?: string }) => m.id)
+					.filter((id: unknown): id is string => typeof id === 'string' && id.length > 0)
 					.sort()
 				setAvailableModels(ids)
 			} catch (err) {
@@ -122,7 +129,7 @@ export function ConfigPanel({ config, onSave, onClose }: ConfigPanelProps) {
 			} finally {
 				setIsFetchingModels(false)
 			}
-		}, 800)
+		}, 1200)
 
 		return () => clearTimeout(timer)
 	}, [baseURL, apiKey])

@@ -39,12 +39,12 @@ let dbPromise: Promise<IDBPDatabase<PageAgentDB>> | null = null
 function getDB() {
 	if (!dbPromise) {
 		dbPromise = openDB<PageAgentDB>(DB_NAME, DB_VERSION, {
-			upgrade(db, oldVersion) {
-				if (oldVersion < 1) {
+			upgrade(db) {
+				if (!db.objectStoreNames.contains('sessions')) {
 					const store = db.createObjectStore('sessions', { keyPath: 'id' })
 					store.createIndex('by-created', 'createdAt')
 				}
-				if (oldVersion < 2) {
+				if (!db.objectStoreNames.contains('files')) {
 					const fileStore = db.createObjectStore('files', { keyPath: 'id' })
 					fileStore.createIndex('by-created', 'createdAt')
 				}
