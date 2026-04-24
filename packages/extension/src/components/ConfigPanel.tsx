@@ -16,6 +16,7 @@ import { siGithub } from 'simple-icons'
 
 import { DEMO_BASE_URL, DEMO_MODEL, isTestingEndpoint } from '@/agent/constants'
 import type { ExtConfig, LanguagePreference } from '@/agent/useAgent'
+import { FileManager } from '@/components/FileManager'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Switch } from '@/components/ui/switch'
@@ -48,6 +49,11 @@ export function ConfigPanel({ config, onSave, onClose }: ConfigPanelProps) {
 	const [copied, setCopied] = useState(false)
 	const [showToken, setShowToken] = useState(false)
 	const [showApiKey, setShowApiKey] = useState(false)
+
+	// Model auto-fetch state
+	const [availableModels, setAvailableModels] = useState<string[]>([])
+	const [isFetchingModels, setIsFetchingModels] = useState(false)
+	const [modelFetchError, setModelFetchError] = useState<string | null>(null)
 
 	const [prevConfig, setPrevConfig] = useState(config)
 	if (prevConfig !== config) {
@@ -86,6 +92,40 @@ export function ConfigPanel({ config, onSave, onClose }: ConfigPanelProps) {
 			if (interval) clearInterval(interval)
 		}
 	}, [])
+
+	// Auto-fetch models when baseURL or apiKey changes
+	useEffect(() => {
+		if (!baseURL) {
+			setAvailableModels([])
+			setModelFetchError(null)
+			return
+		}
+
+		const timer = setTimeout(async () => {
+			setIsFetchingModels(true)
+			setModelFetchError(null)
+			try {
+				const url = baseURL.replace(/\/$/, '') + '/models'
+				const headers: Record<string, string> = {}
+				if (apiKey) headers.Authorization = `Bearer ${apiKey}`
+				const res = await fetch(url, { headers })
+				if (!res.ok) throw new Error(`HTTP ${res.status}`)
+				const json = await res.json()
+				const ids: string[] = (json?.data ?? [])
+					.map((m: { id: string }) => m.id)
+					.filter(Boolean)
+					.sort()
+				setAvailableModels(ids)
+			} catch (err) {
+				setAvailableModels([])
+				setModelFetchError(err instanceof Error ? err.message : 'Failed to fetch models')
+			} finally {
+				setIsFetchingModels(false)
+			}
+		}, 800)
+
+		return () => clearTimeout(timer)
+	}, [baseURL, apiKey])
 
 	const handleCopyToken = async () => {
 		if (userAuthToken) {
@@ -183,7 +223,7 @@ export function ConfigPanel({ config, onSave, onClose }: ConfigPanelProps) {
 				target="_blank"
 				className="flex items-center justify-between p-3 rounded-md border bg-muted/50 text-xs font-medium text-muted-foreground hover:text-foreground hover:border-foreground/20 transition-colors"
 			>
-				Manage Page Agent Hub
+				Manage Mirxa Hub
 				<ExternalLink className="size-3" />
 			</a>
 
@@ -227,6 +267,27 @@ export function ConfigPanel({ config, onSave, onClose }: ConfigPanelProps) {
 					onChange={(e) => setModel(e.target.value)}
 					className="text-xs h-8"
 				/>
+				{isFetchingModels && (
+					<div className="flex items-center gap-1 text-[10px] text-muted-foreground">
+						<Loader2 className="size-3 animate-spin" />
+						Fetching models...
+					</div>
+				)}
+				{!isFetchingModels && availableModels.length > 0 && (
+					<div className="flex flex-wrap gap-1 max-h-[150px] overflow-y-auto">
+						{availableModels.map((m) => (
+							<button
+								key={m}
+								type="button"
+								onClick={() => setModel(m)}
+								className="text-[10px] px-1.5 py-0.5 rounded border border-input bg-muted/50 hover:bg-muted cursor-pointer"
+							>
+								{m}
+							</button>
+						))}
+					</div>
+				)}
+				{modelFetchError && <p className="text-[10px] text-amber-600">{modelFetchError}</p>}
 			</div>
 
 			<div className="flex flex-col gap-1.5">
@@ -252,6 +313,11 @@ export function ConfigPanel({ config, onSave, onClose }: ConfigPanelProps) {
 						{showApiKey ? <EyeOff className="size-3" /> : <Eye className="size-3" />}
 					</Button>
 				</div>
+			</div>
+
+			{/* File Manager Section */}
+			<div className="border-t pt-3">
+				<FileManager />
 			</div>
 
 			<div className="flex flex-col gap-1.5">
@@ -347,7 +413,7 @@ export function ConfigPanel({ config, onSave, onClose }: ConfigPanelProps) {
 					</span>
 
 					<a
-						href="https://github.com/alibaba/page-agent"
+						href="https://github.com/Mirxa27/Mirxa-agent"
 						target="_blank"
 						rel="noopener noreferrer"
 						className="flex items-center gap-1 hover:text-foreground"
@@ -361,7 +427,7 @@ export function ConfigPanel({ config, onSave, onClose }: ConfigPanelProps) {
 
 				<div className="flex flex-col items-end">
 					<a
-						href="https://alibaba.github.io/page-agent/"
+						href="https://github.com/Mirxa27/Mirxa-agent"
 						target="_blank"
 						rel="noopener noreferrer"
 						className="flex items-center gap-1 hover:text-foreground"
@@ -371,7 +437,7 @@ export function ConfigPanel({ config, onSave, onClose }: ConfigPanelProps) {
 					</a>
 
 					<a
-						href="https://github.com/alibaba/page-agent/blob/main/docs/terms-and-privacy.md"
+						href="https://github.com/Mirxa27/Mirxa-agent"
 						target="_blank"
 						rel="noopener noreferrer"
 						className="flex items-center gap-1 hover:text-foreground"
@@ -380,21 +446,6 @@ export function ConfigPanel({ config, onSave, onClose }: ConfigPanelProps) {
 						<span>Privacy</span>
 					</a>
 				</div>
-			</div>
-
-			{/* attribute */}
-			<div className="text-[10px] text-muted-foreground bg-background fixed bottom-0 w-full flex justify-around">
-				<span className="leading-loose">
-					Built with ♥️ by{' '}
-					<a
-						href="https://github.com/gaomeng1900"
-						target="_blank"
-						rel="noopener noreferrer"
-						className="underline hover:text-foreground"
-					>
-						@Simon
-					</a>
-				</span>
 			</div>
 		</div>
 	)
