@@ -383,8 +383,12 @@ export function ConfigPanel({ config, onSave, onClose }: ConfigPanelProps) {
 							value={systemInstruction}
 							onChange={(e) => setSystemInstruction(e.target.value)}
 							rows={3}
+							maxLength={4000}
 							className="text-xs rounded-md border border-input bg-background px-3 py-2 resize-y min-h-[60px]"
 						/>
+						<p className="text-[10px] text-muted-foreground text-right">
+							{systemInstruction.length}/4000
+						</p>
 					</div>
 
 					<label className="flex items-center justify-between cursor-pointer">

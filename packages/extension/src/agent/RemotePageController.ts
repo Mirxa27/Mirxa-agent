@@ -4,6 +4,9 @@ import type { TabsController } from './TabsController'
 
 const PREFIX = '[RemotePageController]'
 
+/** How long to wait after a navigation action for the browser to start loading the new page. */
+const NAVIGATION_SETTLE_DELAY_MS = 1500
+
 const debug = console.debug.bind(console, `\x1b[90m${PREFIX}\x1b[0m`)
 
 function sendMessage(message: {
@@ -135,6 +138,23 @@ export class RemotePageController {
 
 	async executeJavascript(...args: any[]): Promise<DomActionReturn> {
 		return this.remoteCallDomAction('execute_javascript', args)
+	}
+
+	async navigateTo(...args: any[]): Promise<DomActionReturn> {
+		const res = await this.remoteCallDomAction('navigate_to', args)
+		// Wait for the browser to start the navigation (matches clickElement behaviour)
+		await new Promise((resolve) => setTimeout(resolve, NAVIGATION_SETTLE_DELAY_MS))
+		return res
+	}
+
+	async goBack(...args: any[]): Promise<DomActionReturn> {
+		const res = await this.remoteCallDomAction('go_back', args)
+		await new Promise((resolve) => setTimeout(resolve, NAVIGATION_SETTLE_DELAY_MS))
+		return res
+	}
+
+	async sendKeys(...args: any[]): Promise<DomActionReturn> {
+		return this.remoteCallDomAction('send_keys', args)
 	}
 
 	/** @note Managed by content script via storage polling. */

@@ -200,6 +200,7 @@ export default function App() {
 						onChange={(e) => setInputValue(e.target.value)}
 						onKeyDown={handleKeyDown}
 						disabled={isRunning}
+						maxLength={2000}
 						className="text-xs pr-12 min-h-10"
 					/>
 					<InputGroupAddon align="inline-end" className="absolute bottom-0 right-0">
@@ -229,6 +230,11 @@ export default function App() {
 						)}
 					</InputGroupAddon>
 				</InputGroup>
+				{inputValue.length > 1800 && (
+					<p className="text-[10px] text-muted-foreground text-right mt-1">
+						{inputValue.length}/2000
+					</p>
+				)}
 			</footer>
 		</div>
 	)

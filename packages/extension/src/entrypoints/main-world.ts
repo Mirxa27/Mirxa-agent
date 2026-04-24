@@ -37,6 +37,7 @@ export default defineUnlistedScript(() => {
 	const execute: Execute = async (task, config) => {
 		if (typeof task !== 'string') throw new Error('Task must be a string')
 		if (task.trim().length === 0) throw new Error('Task cannot be empty')
+		if (task.length > 2000) throw new Error('Task is too long (max 2000 characters)')
 		if (!config) throw new Error('Config is required')
 		if (!config.baseURL) throw new Error('Config must have a baseURL')
 		if (!config.model) throw new Error('Config must have a model')

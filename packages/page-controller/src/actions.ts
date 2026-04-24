@@ -416,6 +416,44 @@ export async function scrollVertically(scroll_amount: number, element?: HTMLElem
 	}
 }
 
+/**
+ * Navigate the current page to a URL.
+ * Uses setTimeout so the response message can be sent before the page unloads.
+ * @private Internal method, subject to change at any time.
+ */
+export async function navigateToUrl(url: string): Promise<void> {
+	setTimeout(() => {
+		window.location.href = url
+	}, 50)
+}
+
+/**
+ * Navigate back in the browser history.
+ * Uses setTimeout so the response message can be sent before the page unloads.
+ * @private Internal method, subject to change at any time.
+ */
+export async function goBackHistory(): Promise<void> {
+	setTimeout(() => {
+		window.history.back()
+	}, 50)
+}
+
+/**
+ * Dispatch keyboard key events to the currently focused element (or document body).
+ * Key names follow the KeyboardEvent.key spec (e.g. "Enter", "Escape", "Tab", "ArrowDown").
+ * @private Internal method, subject to change at any time.
+ */
+export async function dispatchKeys(keys: string[]): Promise<void> {
+	for (const key of keys) {
+		const target =
+			document.activeElement instanceof HTMLElement ? document.activeElement : document.body
+		const eventInit: KeyboardEventInit = { key, bubbles: true, cancelable: true }
+		target.dispatchEvent(new KeyboardEvent('keydown', eventInit))
+		target.dispatchEvent(new KeyboardEvent('keyup', eventInit))
+		await waitFor(0.05)
+	}
+}
+
 export async function scrollHorizontally(scroll_amount: number, element?: HTMLElement | null) {
 	// Element-specific scrolling if element is provided
 	if (element) {

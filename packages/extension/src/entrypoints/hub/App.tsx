@@ -55,7 +55,7 @@ export default function App() {
 						<p>
 							Check out the official{' '}
 							<a
-								href="https://github.com/alibaba/page-agent/tree/main/packages/mcp"
+								href="https://github.com/Mirxa27/Mirxa-agent/tree/main/packages/mcp"
 								target="_blank"
 								rel="noopener noreferrer"
 								className="underline hover:text-foreground"
