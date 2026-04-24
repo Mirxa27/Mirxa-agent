@@ -1,4 +1,4 @@
-import type { HistoricalEvent } from '@page-agent/core'
+import type { HistoricalEvent } from '@mirxa-agent/core'
 import { type DBSchema, type IDBPDatabase, openDB } from 'idb'
 
 const DB_NAME = 'mirxa-ext'
@@ -21,7 +21,7 @@ export interface FileRecord {
 	createdAt: number
 }
 
-interface PageAgentDB extends DBSchema {
+interface MirxaAgentDB extends DBSchema {
 	sessions: {
 		key: string
 		value: SessionRecord
@@ -34,11 +34,11 @@ interface PageAgentDB extends DBSchema {
 	}
 }
 
-let dbPromise: Promise<IDBPDatabase<PageAgentDB>> | null = null
+let dbPromise: Promise<IDBPDatabase<MirxaAgentDB>> | null = null
 
 function getDB() {
 	if (!dbPromise) {
-		dbPromise = openDB<PageAgentDB>(DB_NAME, DB_VERSION, {
+		dbPromise = openDB<MirxaAgentDB>(DB_NAME, DB_VERSION, {
 			upgrade(db) {
 				if (!db.objectStoreNames.contains('sessions')) {
 					const store = db.createObjectStore('sessions', { keyPath: 'id' })

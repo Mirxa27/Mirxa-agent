@@ -261,7 +261,7 @@ export function ConfigPanel({ config, onSave, onClose }: ConfigPanelProps) {
 					<Scale className="size-3 inline-block mr-1 -mt-0.5 text-amber-600" />
 					You are using our testing API. By using this you agree to the{' '}
 					<a
-						href="https://github.com/alibaba/page-agent/blob/main/docs/terms-and-privacy.md"
+						href="https://github.com/Mirxa27/Mirxa-agent/blob/main/docs/terms-and-privacy.md"
 						target="_blank"
 						rel="noopener noreferrer"
 						className="underline hover:text-foreground"

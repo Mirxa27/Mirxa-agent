@@ -188,7 +188,7 @@ export class PageController extends EventTarget {
 
 		const blacklist = [
 			...(this.config.interactiveBlacklist || []),
-			...Array.from(document.querySelectorAll('[data-page-agent-not-interactive]')),
+			...Array.from(document.querySelectorAll('[data-mirxa-agent-not-interactive]')),
 		]
 
 		this.flatTree = dom.getFlatTree({

@@ -1,29 +1,29 @@
 {
-    "name": "@page-agent/mcp",
+    "name": "@mirxa-agent/mcp",
     "private": false,
     "version": "1.8.0",
     "type": "module",
     "bin": {
-        "page-agent-mcp": "src/index.js"
+        "mirxa-agent-mcp": "src/index.js"
     },
     "files": [
         "src/"
     ],
-    "description": "MCP server for controlling the browser via Page Agent extension",
+    "description": "MCP server for controlling the browser via Mirxa Agent extension",
     "keywords": [
-        "page-agent",
+        "mirxa-agent",
         "mcp",
         "browser-automation",
         "chrome-extension"
     ],
-    "author": "Simon<gaomeng1900>",
+    "author": "Mirxa27",
     "license": "MIT",
     "repository": {
         "type": "git",
-        "url": "https://github.com/alibaba/page-agent.git",
+        "url": "https://github.com/Mirxa27/Mirxa-agent.git",
         "directory": "packages/mcp"
     },
-    "homepage": "https://alibaba.github.io/page-agent/",
+    "homepage": "https://Mirxa27.github.io/Mirxa-agent/",
     "engines": {
         "node": ">=20"
     },

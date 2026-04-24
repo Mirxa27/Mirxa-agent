@@ -8,30 +8,30 @@
         "packages/ui",
         "packages/llms",
         "packages/core",
-        "packages/page-agent",
+        "packages/mirxa-agent",
         "packages/mcp",
         "packages/extension",
         "packages/website"
     ],
-    "description": "AI-powered UI agent for web applications",
-    "author": "Simon<gaomeng1900>",
+    "description": "Mirxa Agent — AI-powered GUI agent for web applications",
+    "author": "Mirxa27",
     "license": "MIT",
     "repository": {
         "type": "git",
-        "url": "https://github.com/alibaba/page-agent.git"
+        "url": "https://github.com/Mirxa27/Mirxa-agent.git"
     },
-    "homepage": "https://alibaba.github.io/page-agent/",
+    "homepage": "https://Mirxa27.github.io/Mirxa-agent/",
     "engines": {
         "node": "^22.13.0 || >=24"
     },
     "scripts": {
-        "start": "npm run dev --workspace=@page-agent/website",
-        "dev:ext": "npm run dev -w @page-agent/ext",
-        "dev:demo": "npm run dev:demo --workspace=page-agent",
+        "start": "npm run dev --workspace=@mirxa-agent/website",
+        "dev:ext": "npm run dev -w @mirxa-agent/ext",
+        "dev:demo": "npm run dev:demo --workspace=mirxa-agent",
         "build": "node scripts/build.js",
         "build:libs": "node scripts/build-libs.js",
-        "build:website": "npm run build:website --workspace=@page-agent/website",
-        "build:ext": "npm run zip -w @page-agent/ext",
+        "build:website": "npm run build:website --workspace=@mirxa-agent/website",
+        "build:ext": "npm run zip -w @mirxa-agent/ext",
         "version": "node scripts/sync-version.js",
         "postpublish": "npm run postpublish --workspaces --if-present",
         "typecheck": "tsc --noEmit -p tsconfig.typecheck.json && tsc --noEmit -p packages/extension/tsconfig.json",

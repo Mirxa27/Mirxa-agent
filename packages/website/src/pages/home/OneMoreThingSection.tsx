@@ -27,14 +27,14 @@ export default function OneMoreThingSection() {
 					<p className="text-sm text-gray-500 dark:text-gray-400 mb-12 max-w-2xl mx-auto">
 						{'* '}
 						{isZh
-							? 'PageAgent.js 本身无需任何扩展即可工作，扩展是额外的能力增强。'
-							: 'PageAgent.js works without any extension — this is a power-up, not a dependency.'}
+							? 'MirxaAgent.js 本身无需任何扩展即可工作，扩展是额外的能力增强。'
+							: 'MirxaAgent.js works without any extension — this is a power-up, not a dependency.'}
 					</p>
 				</BlurFade>
 
 				<div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
 					<a
-						href="https://chromewebstore.google.com/detail/page-agent-ext/akldabonmimlicnjlflnapfeklbfemhj"
+						href="https://chromewebstore.google.com/detail/mirxa-agent-ext/akldabonmimlicnjlflnapfeklbfemhj"
 						target="_blank"
 						rel="noopener noreferrer"
 						className="group inline-flex items-center gap-3 px-8 py-4 bg-linear-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-medium rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"

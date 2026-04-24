@@ -36,7 +36,7 @@ const root = join(process.cwd(), '../..')
 copyFileSync(join(root, 'LICENSE'), join(process.cwd(), 'LICENSE'))
 console.log('  ✓ LICENSE copied')
 
-if (pkg.name === 'page-agent') {
+if (pkg.name === 'mirxa-agent') {
 	copyFileSync(join(root, 'README.md'), join(process.cwd(), 'README.md'))
 	console.log('  ✓ README.md copied')
 }

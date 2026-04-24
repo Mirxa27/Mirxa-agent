@@ -18,7 +18,7 @@ export type AgentActivity =
 
 /**
  * Minimal interface that Panel expects from an agent.
- * Panel does not depend on PageAgent directly - it only requires this interface.
+ * Panel does not depend on MirxaAgent directly - it only requires this interface.
  * This enables decoupling and allows any agent implementation to work with Panel.
  *
  * Events:

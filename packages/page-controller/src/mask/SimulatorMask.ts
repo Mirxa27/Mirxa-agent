@@ -23,10 +23,10 @@ export class SimulatorMask extends EventTarget {
 	constructor() {
 		super()
 
-		this.wrapper.id = 'page-agent-runtime_simulator-mask'
+		this.wrapper.id = 'mirxa-agent-runtime_simulator-mask'
 		this.wrapper.className = styles.wrapper
 		this.wrapper.setAttribute('data-browser-use-ignore', 'true')
-		this.wrapper.setAttribute('data-page-agent-ignore', 'true')
+		this.wrapper.setAttribute('data-mirxa-agent-ignore', 'true')
 
 		try {
 			const motion = new Motion({
@@ -96,16 +96,16 @@ export class SimulatorMask extends EventTarget {
 			this.wrapper.style.pointerEvents = 'auto'
 		}
 
-		window.addEventListener('PageAgent::MovePointerTo', movePointerToListener)
-		window.addEventListener('PageAgent::ClickPointer', clickPointerListener)
-		window.addEventListener('PageAgent::EnablePassThrough', enablePassThroughListener)
-		window.addEventListener('PageAgent::DisablePassThrough', disablePassThroughListener)
+		window.addEventListener('MirxaAgent::MovePointerTo', movePointerToListener)
+		window.addEventListener('MirxaAgent::ClickPointer', clickPointerListener)
+		window.addEventListener('MirxaAgent::EnablePassThrough', enablePassThroughListener)
+		window.addEventListener('MirxaAgent::DisablePassThrough', disablePassThroughListener)
 
 		this.addEventListener('dispose', () => {
-			window.removeEventListener('PageAgent::MovePointerTo', movePointerToListener)
-			window.removeEventListener('PageAgent::ClickPointer', clickPointerListener)
-			window.removeEventListener('PageAgent::EnablePassThrough', enablePassThroughListener)
-			window.removeEventListener('PageAgent::DisablePassThrough', disablePassThroughListener)
+			window.removeEventListener('MirxaAgent::MovePointerTo', movePointerToListener)
+			window.removeEventListener('MirxaAgent::ClickPointer', clickPointerListener)
+			window.removeEventListener('MirxaAgent::EnablePassThrough', enablePassThroughListener)
+			window.removeEventListener('MirxaAgent::DisablePassThrough', disablePassThroughListener)
 		})
 	}
 

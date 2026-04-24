@@ -11,7 +11,7 @@ export default function QuickStart() {
 			<h1 className="text-4xl font-bold mb-6">Quick Start</h1>
 
 			<p className=" mb-6 leading-relaxed">
-				{isZh ? '几分钟内完成 page-agent 的集成。' : 'Integrate page-agent in minutes.'}
+				{isZh ? '几分钟内完成 mirxa-agent 的集成。' : 'Integrate mirxa-agent in minutes.'}
 			</p>
 
 			<Heading id="installation-steps" className="text-2xl font-bold mb-3">
@@ -31,7 +31,7 @@ export default function QuickStart() {
 								<>
 									该 Demo CDN 使用了免费的测试 LLM API，使用即表示您同意其
 									<a
-										href="https://github.com/alibaba/page-agent/blob/main/docs/terms-and-privacy.md#2-testing-api-and-demo-disclaimer--terms-of-use"
+										href="https://github.com/Mirxa27/Mirxa-agent/blob/main/docs/terms-and-privacy.md#2-testing-api-and-demo-disclaimer--terms-of-use"
 										target="_blank"
 										rel="noopener noreferrer"
 										className="underline"
@@ -43,7 +43,7 @@ export default function QuickStart() {
 								<>
 									This demo CDN uses our free testing LLM API. By using it you agree to the{' '}
 									<a
-										href="https://github.com/alibaba/page-agent/blob/main/docs/terms-and-privacy.md#2-testing-api-and-demo-disclaimer--terms-of-use"
+										href="https://github.com/Mirxa27/Mirxa-agent/blob/main/docs/terms-and-privacy.md#2-testing-api-and-demo-disclaimer--terms-of-use"
 										target="_blank"
 										rel="noopener noreferrer"
 										className="underline"
@@ -86,9 +86,9 @@ export default function QuickStart() {
 						{isZh ? '📦 NPM 安装（推荐）' : '📦 NPM Install (Recommended)'}
 					</h3>
 					<CodeEditor
-						code={`// npm install page-agent
+						code={`// npm install mirxa-agent
 
-import { PageAgent } from 'page-agent'`}
+import { MirxaAgent } from 'mirxa-agent'`}
 						language="bash"
 					/>
 				</div>
@@ -98,7 +98,7 @@ import { PageAgent } from 'page-agent'`}
 						{isZh ? '2. 初始化配置' : '2. Initialize Configuration'}
 					</h3>
 					<CodeEditor
-						code={`const agent = new PageAgent({
+						code={`const agent = new MirxaAgent({
   model: 'qwen3.5-plus',
   baseURL: 'https://dashscope.aliyuncs.com/compatible-mode/v1',
   apiKey: 'YOUR_API_KEY',

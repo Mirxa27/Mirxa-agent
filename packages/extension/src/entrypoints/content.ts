@@ -37,13 +37,13 @@ export default defineContentScript({
 })
 
 async function exposeAgentToPage() {
-	const { MultiPageAgent } = await import('@/agent/MultiPageAgent')
-	console.log('[MirxaExt]: MultiPageAgent loaded')
+	const { MultiMirxaAgent } = await import('@/agent/MultiMirxaAgent')
+	console.log('[MirxaExt]: MultiMirxaAgent loaded')
 
 	/**
-	 * singleton MultiPageAgent to handle requests from the page
+	 * singleton MultiMirxaAgent to handle requests from the page
 	 */
-	let multiPageAgent: InstanceType<typeof MultiPageAgent> | null = null
+	let multiMirxaAgent: InstanceType<typeof MultiMirxaAgent> | null = null
 
 	window.addEventListener('message', async (e) => {
 		if (e.source !== window) return
@@ -57,7 +57,7 @@ async function exposeAgentToPage() {
 		switch (action) {
 			case 'execute': {
 				// singleton check
-				if (multiPageAgent && multiPageAgent.status === 'running') {
+				if (multiMirxaAgent && multiMirxaAgent.status === 'running') {
 					window.postMessage(
 						{
 							channel: 'MIRXA_EXT_RESPONSE',
@@ -75,30 +75,30 @@ async function exposeAgentToPage() {
 					const { systemInstruction, ...agentConfig } = config
 
 					// Dispose old instance before creating new one
-					multiPageAgent?.dispose()
+					multiMirxaAgent?.dispose()
 
-					multiPageAgent = new MultiPageAgent({
+					multiMirxaAgent = new MultiMirxaAgent({
 						...agentConfig,
 						instructions: systemInstruction ? { system: systemInstruction } : undefined,
 					})
 
 					// events
 
-					multiPageAgent.addEventListener('statuschange', (event) => {
-						if (!multiPageAgent) return
+					multiMirxaAgent.addEventListener('statuschange', (event) => {
+						if (!multiMirxaAgent) return
 						window.postMessage(
 							{
 								channel: 'MIRXA_EXT_RESPONSE',
 								id,
 								action: 'status_change_event',
-								payload: multiPageAgent.status,
+								payload: multiMirxaAgent.status,
 							},
 							'*'
 						)
 					})
 
-					multiPageAgent.addEventListener('activity', (event) => {
-						if (!multiPageAgent) return
+					multiMirxaAgent.addEventListener('activity', (event) => {
+						if (!multiMirxaAgent) return
 						window.postMessage(
 							{
 								channel: 'MIRXA_EXT_RESPONSE',
@@ -110,14 +110,14 @@ async function exposeAgentToPage() {
 						)
 					})
 
-					multiPageAgent.addEventListener('historychange', (event) => {
-						if (!multiPageAgent) return
+					multiMirxaAgent.addEventListener('historychange', (event) => {
+						if (!multiMirxaAgent) return
 						window.postMessage(
 							{
 								channel: 'MIRXA_EXT_RESPONSE',
 								id,
 								action: 'history_change_event',
-								payload: multiPageAgent.history,
+								payload: multiMirxaAgent.history,
 							},
 							'*'
 						)
@@ -125,7 +125,7 @@ async function exposeAgentToPage() {
 
 					// result
 
-					const result = await multiPageAgent.execute(task)
+					const result = await multiMirxaAgent.execute(task)
 
 					window.postMessage(
 						{
@@ -152,7 +152,7 @@ async function exposeAgentToPage() {
 			}
 
 			case 'stop': {
-				multiPageAgent?.stop()
+				multiMirxaAgent?.stop()
 				break
 			}
 

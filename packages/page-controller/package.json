@@ -1,5 +1,5 @@
 {
-    "name": "@page-agent/page-controller",
+    "name": "@mirxa-agent/page-controller",
     "version": "1.8.0",
     "type": "module",
     "main": "./src/PageController.ts",
@@ -25,21 +25,21 @@
     "files": [
         "dist/"
     ],
-    "description": "Page controller for page-agent - DOM operations and element interactions",
+    "description": "Page controller for mirxa-agent - DOM operations and element interactions",
     "keywords": [
-        "page-agent",
+        "mirxa-agent",
         "dom",
         "browser-automation",
         "web-automation"
     ],
-    "author": "Simon<gaomeng1900>",
+    "author": "Mirxa27",
     "license": "MIT",
     "repository": {
         "type": "git",
-        "url": "https://github.com/alibaba/page-agent.git",
+        "url": "https://github.com/Mirxa27/Mirxa-agent.git",
         "directory": "packages/page-controller"
     },
-    "homepage": "https://alibaba.github.io/page-agent/",
+    "homepage": "https://Mirxa27.github.io/Mirxa-agent/",
     "scripts": {
         "build": "vite build",
         "prepublishOnly": "node ../../scripts/pre-publish.js",

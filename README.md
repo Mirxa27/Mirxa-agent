@@ -1,17 +1,17 @@
-# Page Agent
+# Mirxa Agent
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://img.alicdn.com/imgextra/i4/O1CN01qKig1P1FnhpFKNdi6_!!6000000000532-2-tps-1280-256.png">
-  <img alt="Page Agent Banner" src="https://img.alicdn.com/imgextra/i1/O1CN01NCMKXj1Gn4tkFTsxf_!!6000000000666-2-tps-1280-256.png">
+  <img alt="Mirxa Agent Banner" src="https://img.alicdn.com/imgextra/i1/O1CN01NCMKXj1Gn4tkFTsxf_!!6000000000666-2-tps-1280-256.png">
 </picture>
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-auto.svg)](https://opensource.org/licenses/MIT) [![TypeScript](https://img.shields.io/badge/%3C%2F%3E-TypeScript-%230074c1.svg)](http://www.typescriptlang.org/) [![Bundle Size](https://img.shields.io/bundlephobia/minzip/page-agent)](https://bundlephobia.com/package/page-agent) [![Downloads](https://img.shields.io/npm/dt/page-agent.svg)](https://www.npmjs.com/package/page-agent) [![GitHub stars](https://img.shields.io/github/stars/alibaba/page-agent.svg)](https://github.com/alibaba/page-agent)
+[![License: MIT](https://img.shields.io/badge/License-MIT-auto.svg)](https://opensource.org/licenses/MIT) [![TypeScript](https://img.shields.io/badge/%3C%2F%3E-TypeScript-%230074c1.svg)](http://www.typescriptlang.org/) [![Bundle Size](https://img.shields.io/bundlephobia/minzip/mirxa-agent)](https://bundlephobia.com/package/mirxa-agent) [![Downloads](https://img.shields.io/npm/dt/mirxa-agent.svg)](https://www.npmjs.com/package/mirxa-agent) [![GitHub stars](https://img.shields.io/github/stars/Mirxa27/Mirxa-agent.svg)](https://github.com/Mirxa27/Mirxa-agent)
 
 The GUI Agent Living in Your Webpage. Control web interfaces with natural language.
 
 🌐 **English** | [中文](./docs/README-zh.md)
 
-<a href="https://alibaba.github.io/page-agent/" target="_blank"><b>🚀 Demo</b></a> | <a href="https://alibaba.github.io/page-agent/docs/introduction/overview" target="_blank"><b>📖 Docs</b></a> | <a href="https://news.ycombinator.com/item?id=47264138" target="_blank"><b>📢 HN Discussion</b></a> | <a href="https://x.com/simonluvramen" target="_blank"><b>𝕏 Follow on X</b></a>
+<a href="https://Mirxa27.github.io/Mirxa-agent/" target="_blank"><b>🚀 Demo</b></a> | <a href="https://Mirxa27.github.io/Mirxa-agent/docs/introduction/overview" target="_blank"><b>📖 Docs</b></a> | <a href="https://news.ycombinator.com/item?id=47264138" target="_blank"><b>📢 HN Discussion</b></a> | <a href="https://x.com/simonluvramen" target="_blank"><b>𝕏 Follow on X</b></a>
 
 <video id="demo-video" src="https://github.com/user-attachments/assets/a1f2eae2-13fb-4aae-98cf-a3fc1620a6c2" controls crossorigin muted></video>
 
@@ -25,44 +25,44 @@ The GUI Agent Living in Your Webpage. Control web interfaces with natural langua
 - **📖 Text-based DOM manipulation**
     - No screenshots. No multi-modal LLMs or special permissions needed.
 - **🧠 Bring your own LLMs**
-- **🐙 Optional [chrome extension](https://alibaba.github.io/page-agent/docs/features/chrome-extension) for multi-page tasks.**
-    - And an [MCP Server (Beta)](https://alibaba.github.io/page-agent/docs/features/mcp-server) to control it from outside
+- **🐙 Optional [chrome extension](https://Mirxa27.github.io/Mirxa-agent/docs/features/chrome-extension) for multi-page tasks.**
+    - And an [MCP Server (Beta)](https://Mirxa27.github.io/Mirxa-agent/docs/features/mcp-server) to control it from outside
 
 ## 💡 Use Cases
 
 - **SaaS AI Copilot** — Ship an AI copilot in your product in lines of code. No backend rewrite.
 - **Smart Form Filling** — Turn 20-click workflows into one sentence. Perfect for ERP, CRM, and admin systems.
 - **Accessibility** — Make any web app accessible through natural language. Voice commands, screen readers, zero barrier.
-- **Multi-page Agent** — Extend your own web agent's reach across browser tabs [chrome extension](https://alibaba.github.io/page-agent/docs/features/chrome-extension).
+- **Multi-page Agent** — Extend your own web agent's reach across browser tabs [chrome extension](https://Mirxa27.github.io/Mirxa-agent/docs/features/chrome-extension).
 - **MCP** - Allow your agent clients to control your browser.
 
 ## 🚀 Quick Start
 
 ### One-line integration
 
-Fastest way to try PageAgent with our free Demo LLM:
+Fastest way to try MirxaAgent with our free Demo LLM:
 
 ```html
 <script src="{URL}" crossorigin="true"></script>
 ```
 
-> **⚠️ For technical evaluation only.** This demo CDN uses our free [testing LLM API](https://alibaba.github.io/page-agent/docs/features/models#free-testing-api). By using it, you agree to its [terms](https://github.com/alibaba/page-agent/blob/main/docs/terms-and-privacy.md).
+> **⚠️ For technical evaluation only.** This demo CDN uses our free [testing LLM API](https://Mirxa27.github.io/Mirxa-agent/docs/features/models#free-testing-api). By using it, you agree to its [terms](https://github.com/Mirxa27/Mirxa-agent/blob/main/docs/terms-and-privacy.md).
 
 | Mirrors | URL                                                                                |
 | ------- | ---------------------------------------------------------------------------------- |
-| Global  | https://cdn.jsdelivr.net/npm/page-agent@1.8.0/dist/iife/page-agent.demo.js         |
-| China   | https://registry.npmmirror.com/page-agent/1.8.0/files/dist/iife/page-agent.demo.js |
+| Global  | https://cdn.jsdelivr.net/npm/mirxa-agent@1.8.0/dist/iife/mirxa-agent.demo.js         |
+| China   | https://registry.npmmirror.com/mirxa-agent/1.8.0/files/dist/iife/mirxa-agent.demo.js |
 
 ### NPM Installation
 
 ```bash
-npm install page-agent
+npm install mirxa-agent
 ```
 
 ```javascript
-import { PageAgent } from 'page-agent'
+import { MirxaAgent } from 'mirxa-agent'
 
-const agent = new PageAgent({
+const agent = new MirxaAgent({
     model: 'qwen3.5-plus',
     baseURL: 'https://dashscope.aliyuncs.com/compatible-mode/v1',
     apiKey: 'YOUR_API_KEY',
@@ -72,23 +72,23 @@ const agent = new PageAgent({
 await agent.execute('Click the login button')
 ```
 
-For more programmatic usage, see [📖 Documentations](https://alibaba.github.io/page-agent/docs/introduction/overview).
+For more programmatic usage, see [📖 Documentations](https://Mirxa27.github.io/Mirxa-agent/docs/introduction/overview).
 
-## 🌟 Awesome Page Agent
+## 🌟 Awesome Mirxa Agent
 
-Built something cool with PageAgent? Add it here! Open a PR to share your project.
+Built something cool with MirxaAgent? Add it here! Open a PR to share your project.
 
 > These are community projects — not maintained or endorsed by us. Use at your own discretion.
 
 | Project  | Description                                                 |
 | -------- | ----------------------------------------------------------- |
-| _Yours?_ | [Open a PR](https://github.com/alibaba/page-agent/pulls) 🙌 |
+| _Yours?_ | [Open a PR](https://github.com/Mirxa27/Mirxa-agent/pulls) 🙌 |
 
 ## 🤝 Contributing
 
 We welcome contributions from the community! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines and [docs/developer-guide.md](docs/developer-guide.md) for local development workflows.
 
-Please read the [maintainer's note](https://github.com/alibaba/page-agent/issues/349) on principles and current state.
+Please read the [maintainer's note](https://github.com/Mirxa27/Mirxa-agent/issues/349) on principles and current state.
 
 Contributions generated entirely by **bots or AI** without substantial human involvement will **not be accepted**.
 
@@ -100,7 +100,7 @@ Contributions generated entirely by **bots or AI** without substantial human inv
 
 This project builds upon the excellent work of **[`browser-use`](https://github.com/browser-use/browser-use)**.
 
-`PageAgent` is designed for **client-side web enhancement**, not server-side automation.
+`MirxaAgent` is designed for **client-side web enhancement**, not server-side automation.
 
 ```
 DOM processing components and prompt are derived from browser-use:
@@ -116,4 +116,4 @@ this project possible.
 
 ---
 
-**⭐ Star this repo if you find PageAgent helpful!**
+**⭐ Star this repo if you find MirxaAgent helpful!**

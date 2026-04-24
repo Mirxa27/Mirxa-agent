@@ -1,11 +1,11 @@
-# @page-agent/mcp
+# @mirxa-agent/mcp
 
-MCP server that lets AI agent clients (Claude Desktop, Copilot, etc.) control your browser through the [Page Agent](https://github.com/alibaba/page-agent) extension.
+MCP server that lets AI agent clients (Claude Desktop, Copilot, etc.) control your browser through the [Mirxa Agent](https://github.com/Mirxa27/Mirxa-agent) extension.
 
 ## Prerequisites
 
 - Node.js >= 20
-- [Page Agent Extension](https://chromewebstore.google.com/detail/page-agent-ext/akldabonmimlicnjlflnapfeklbfemhj) installed in Chrome
+- [Mirxa Agent Extension](https://chromewebstore.google.com/detail/mirxa-agent-ext/akldabonmimlicnjlflnapfeklbfemhj) installed in Chrome
 - An LLM API key (OpenAI-compatible)
 
 ## Installation
@@ -17,9 +17,9 @@ Add to `~/Library/Application Support/Claude/claude_desktop_config.json`:
 ```json
 {
     "mcpServers": {
-        "page-agent": {
+        "mirxa-agent": {
             "command": "npx",
-            "args": ["-y", "@page-agent/mcp"],
+            "args": ["-y", "@mirxa-agent/mcp"],
             "env": {
                 "LLM_BASE_URL": "https://dashscope.aliyuncs.com/compatible-mode/v1",
                 "LLM_API_KEY": "sk-xxx",
@@ -55,7 +55,7 @@ Same format — add the config to the MCP settings of your client.
 
 ```
 ┌──────────────┐  stdio   ┌──────────────────┐  WebSocket   ┌──────────────┐
-│ Claude /     │◄────────►│ @page-agent/mcp  │◄────────────►│ Hub tab      │
+│ Claude /     │◄────────►│ @mirxa-agent/mcp  │◄────────────►│ Hub tab      │
 │ Copilot      │  (MCP)   │ (Node.js)        │  (localhost) │ (extension)  │
 └──────────────┘          └──────────────────┘              └──────┬───────┘
                                    │                               │
@@ -67,7 +67,7 @@ Same format — add the config to the MCP settings of your client.
                           └──────────────────┘              └──────────────┘
 ```
 
-1. Agent client starts the MCP server via stdio (`npx @page-agent/mcp`).
+1. Agent client starts the MCP server via stdio (`npx @mirxa-agent/mcp`).
 2. Server starts HTTP + WS on `localhost:PORT`, opens the launcher page in browser.
 3. Launcher page triggers the extension to open a **hub tab** (`hub.html?ws=PORT`).
 4. Hub connects to the WS server. MCP tools now proxy tasks to the hub.

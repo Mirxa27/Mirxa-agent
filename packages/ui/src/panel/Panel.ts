@@ -371,10 +371,10 @@ export class Panel {
 	#createWrapper(): HTMLElement {
 		const taskInputMaxLength = 1000
 		const wrapper = document.createElement('div')
-		wrapper.id = 'page-agent-runtime_agent-panel'
+		wrapper.id = 'mirxa-agent-runtime_agent-panel'
 		wrapper.className = styles.wrapper
 		wrapper.setAttribute('data-browser-use-ignore', 'true')
-		wrapper.setAttribute('data-page-agent-ignore', 'true')
+		wrapper.setAttribute('data-mirxa-agent-ignore', 'true')
 
 		wrapper.innerHTML = `
 			<div class="${styles.background}"></div>

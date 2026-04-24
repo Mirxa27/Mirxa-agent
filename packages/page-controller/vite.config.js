@@ -8,7 +8,7 @@ import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
-console.log(chalk.cyan(`📦 Building @page-agent/page-controller`))
+console.log(chalk.cyan(`📦 Building @mirxa-agent/page-controller`))
 
 export default defineConfig({
 	clearScreen: false,
@@ -34,7 +34,7 @@ export default defineConfig({
 		},
 		outDir: resolve(__dirname, 'dist', 'lib'),
 		rollupOptions: {
-			external: ['@page-agent/*', 'ai-motion'],
+			external: ['@mirxa-agent/*', 'ai-motion'],
 			onwarn: function (message, handler) {
 				if (message.code === 'EVAL') return
 				handler(message)

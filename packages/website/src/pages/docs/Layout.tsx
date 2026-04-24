@@ -55,8 +55,8 @@ export default function DocsLayout({ children }: DocsLayoutProps) {
 		{
 			title: isZh ? '高级' : 'Advanced',
 			items: [
-				{ title: 'PageAgent', path: '/advanced/page-agent' },
-				{ title: 'PageAgentCore', path: '/advanced/page-agent-core' },
+				{ title: 'MirxaAgent', path: '/advanced/mirxa-agent' },
+				{ title: 'MirxaAgentCore', path: '/advanced/mirxa-agent-core' },
 				{ title: 'PageController', path: '/advanced/page-controller' },
 				{ title: isZh ? '自定义 UI' : 'Custom UI', path: '/advanced/custom-ui' },
 				{

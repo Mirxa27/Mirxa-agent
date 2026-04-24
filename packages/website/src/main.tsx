@@ -10,12 +10,12 @@ import './index.css'
 const { hash } = window.location
 if (hash.length > 1 && hash.includes('/')) {
 	const path = hash.replace(/^#\/?/, '/')
-	history.replaceState(null, '', '/page-agent' + path)
+	history.replaceState(null, '', '/mirxa-agent' + path)
 }
 
 createRoot(document.getElementById('root')!).render(
 	<LanguageProvider>
-		<Router base="/page-agent">
+		<Router base="/mirxa-agent">
 			<PagesRouter />
 		</Router>
 	</LanguageProvider>

@@ -3,8 +3,8 @@
  * Copyright (C) 2026 SimonLuvRamen
  * All rights reserved.
  */
-import { InvokeError, LLM, type Tool } from '@page-agent/llms'
-import type { BrowserState, PageController } from '@page-agent/page-controller'
+import { InvokeError, LLM, type Tool } from '@mirxa-agent/llms'
+import type { BrowserState, PageController } from '@mirxa-agent/page-controller'
 import chalk from 'chalk'
 import * as z from 'zod/v4'
 
@@ -23,10 +23,10 @@ import type {
 } from './types'
 import { assert, fetchLlmsTxt, normalizeResponse, uid, waitFor } from './utils'
 
-export { tool, type PageAgentTool } from './tools'
+export { tool, type MirxaAgentTool } from './tools'
 export type * from './types'
 
-export type PageAgentCoreConfig = AgentConfig & { pageController: PageController }
+export type MirxaAgentCoreConfig = AgentConfig & { pageController: PageController }
 
 /**
  * AI agent for browser automation.
@@ -58,9 +58,9 @@ export type PageAgentCoreConfig = AgentConfig & { pageController: PageController
  *    - NOT included in LLM context
  *    - Types: thinking, executing, executed, retrying, error
  */
-export class PageAgentCore extends EventTarget {
+export class MirxaAgentCore extends EventTarget {
 	readonly id = uid()
-	readonly config: PageAgentCoreConfig & { maxSteps: number }
+	readonly config: MirxaAgentCoreConfig & { maxSteps: number }
 	readonly tools: typeof tools
 	/** PageController for DOM operations */
 	readonly pageController: PageController
@@ -94,7 +94,7 @@ export class PageAgentCore extends EventTarget {
 		browserState: null as BrowserState | null,
 	}
 
-	constructor(config: PageAgentCoreConfig) {
+	constructor(config: MirxaAgentCoreConfig) {
 		super()
 
 		this.config = { ...config, maxSteps: config.maxSteps ?? 40 }
@@ -194,7 +194,7 @@ export class PageAgentCore extends EventTarget {
 	}
 
 	async execute(task: string): Promise<ExecutionResult> {
-		if (this.disposed) throw new Error('PageAgent has been disposed. Create a new instance.')
+		if (this.disposed) throw new Error('MirxaAgent has been disposed. Create a new instance.')
 		if (!task) throw new Error('Task is required')
 		this.task = task
 		this.taskId = uid()
@@ -411,7 +411,7 @@ export class PageAgentCore extends EventTarget {
 
 				const startTime = Date.now()
 
-				// Execute tool, bind `this` to PageAgent
+				// Execute tool, bind `this` to MirxaAgent
 				const result = await tool.execute.bind(this)(toolInput)
 
 				const duration = Date.now() - startTime
@@ -474,7 +474,7 @@ export class PageAgentCore extends EventTarget {
 				pageInstructions = instructions.getPageInstructions(url)?.trim()
 			} catch (error) {
 				console.error(
-					chalk.red('[PageAgent] Failed to execute getPageInstructions callback:'),
+					chalk.red('[MirxaAgent] Failed to execute getPageInstructions callback:'),
 					error
 				)
 			}
@@ -627,7 +627,7 @@ export class PageAgentCore extends EventTarget {
 	}
 
 	dispose() {
-		console.log('Disposing PageAgent...')
+		console.log('Disposing MirxaAgent...')
 		this.disposed = true
 		this.pageController.dispose()
 		// this.history = []

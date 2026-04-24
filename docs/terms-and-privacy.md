@@ -2,7 +2,7 @@
 
 **Last updated:** March 2026
 
-"We" in this document refers to the maintainers of the open-source Page Agent project (https://github.com/alibaba/page-agent). "The software" refers to Page Agent (the JavaScript library) and Page Agent Ext (the browser extension). This document covers the software itself and the testing API we provide — **not** any third-party product or service built with it.
+"We" in this document refers to the maintainers of the open-source Mirxa Agent project (https://github.com/Mirxa27/Mirxa-agent). "The software" refers to Mirxa Agent (the JavaScript library) and Mirxa Agent Ext (the browser extension). This document covers the software itself and the testing API we provide — **not** any third-party product or service built with it.
 
 ---
 
@@ -12,7 +12,7 @@ The software is a **client-side only** tool with a "Bring Your Own Key" (BYOK) a
 
 All data transmission occurs **only** between your browser and the LLM provider you configure. You are in full control of which provider receives your data.
 
-The project is open source under the [MIT License](https://github.com/alibaba/page-agent/blob/main/LICENSE) and can be audited at: https://github.com/alibaba/page-agent
+The project is open source under the [MIT License](https://github.com/Mirxa27/Mirxa-agent/blob/main/LICENSE) and can be audited at: https://github.com/Mirxa27/Mirxa-agent
 
 ---
 
@@ -42,7 +42,7 @@ This free testing API is provided **strictly for technical evaluation and R&D pu
 
 ---
 
-## 3. Browser Extension (Page Agent Ext)
+## 3. Browser Extension (Mirxa Agent Ext)
 
 ### Data Processing
 
@@ -82,4 +82,4 @@ We may update these terms at our discretion.
 
 ## Contact
 
-https://github.com/alibaba/page-agent/issues
+https://github.com/Mirxa27/Mirxa-agent/issues

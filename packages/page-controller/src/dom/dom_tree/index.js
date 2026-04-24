@@ -1494,7 +1494,7 @@ export default (
 		/**
 		 * @edit add `data-browser-use-ignore` attribute
 		 */
-		if (node.dataset?.browserUseIgnore === 'true' || node.dataset?.pageAgentIgnore === 'true') {
+		if (node.dataset?.browserUseIgnore === 'true' || node.dataset?.mirxaAgentIgnore === 'true') {
 			return null // Skip this node and its children
 		}
 

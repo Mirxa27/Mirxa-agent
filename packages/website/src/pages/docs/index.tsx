@@ -3,9 +3,9 @@ import { Route, Switch } from 'wouter'
 
 import DocsLayout from './Layout'
 import CustomUIDocs from './advanced/custom-ui/page'
-import PageAgentCoreDocs from './advanced/page-agent-core/page'
+import MirxaAgentCoreDocs from './advanced/mirxa-agent-core/page'
 // Advanced
-import PageAgentDocs from './advanced/page-agent/page'
+import MirxaAgentDocs from './advanced/mirxa-agent/page'
 import PageControllerDocs from './advanced/page-controller/page'
 import SecurityPermissions from './advanced/security-permissions/page'
 // Features
@@ -93,14 +93,14 @@ export default function DocsRouter() {
 			</Route>
 
 			{/* Advanced */}
-			<Route path="/advanced/page-agent">
+			<Route path="/advanced/mirxa-agent">
 				<DocsPage>
-					<PageAgentDocs />
+					<MirxaAgentDocs />
 				</DocsPage>
 			</Route>
-			<Route path="/advanced/page-agent-core">
+			<Route path="/advanced/mirxa-agent-core">
 				<DocsPage>
-					<PageAgentCoreDocs />
+					<MirxaAgentCoreDocs />
 				</DocsPage>
 			</Route>
 			<Route path="/advanced/page-controller">

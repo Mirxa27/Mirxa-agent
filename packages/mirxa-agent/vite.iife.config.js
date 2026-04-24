@@ -24,8 +24,8 @@ export default defineConfig(() => ({
 	build: {
 		lib: {
 			entry: resolve(__dirname, 'src/demo.ts'),
-			name: 'PageAgent',
-			fileName: () => `page-agent.demo.js`,
+			name: 'MirxaAgent',
+			fileName: () => `mirxa-agent.demo.js`,
 			formats: ['iife'],
 		},
 		outDir: resolve(__dirname, 'dist', 'iife'),
@@ -34,7 +34,7 @@ export default defineConfig(() => ({
 		rollupOptions: {
 			// output: {
 			// 	// force use .js as extension
-			// 	entryFileNames: 'page-agent.js',
+			// 	entryFileNames: 'mirxa-agent.js',
 			// },
 			onwarn: function (message, handler) {
 				if (message.code === 'EVAL') return

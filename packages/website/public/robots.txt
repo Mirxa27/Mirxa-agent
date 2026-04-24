@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://alibaba.github.io/page-agent/sitemap.xml
+Sitemap: https://Mirxa27.github.io/Mirxa-agent/sitemap.xml
