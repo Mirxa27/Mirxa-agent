@@ -37,6 +37,7 @@ export default defineUnlistedScript(() => {
 	const execute: Execute = async (task, config) => {
 		if (typeof task !== 'string') throw new Error('Task must be a string')
 		if (task.trim().length === 0) throw new Error('Task cannot be empty')
+		if (task.length > 2000) throw new Error('Task is too long (max 2000 characters)')
 		if (!config) throw new Error('Config is required')
 		if (!config.baseURL) throw new Error('Config must have a baseURL')
 		if (!config.model) throw new Error('Config must have a model')
@@ -49,7 +50,7 @@ export default defineUnlistedScript(() => {
 
 				const data = e.data
 				if (typeof data !== 'object' || data === null) return
-				if (data.channel !== 'PAGE_AGENT_EXT_RESPONSE') return
+				if (data.channel !== 'MIRXA_EXT_RESPONSE') return
 				if (data.id !== id) return
 
 				// events
@@ -88,7 +89,7 @@ export default defineUnlistedScript(() => {
 
 		window.postMessage(
 			{
-				channel: 'PAGE_AGENT_EXT_REQUEST',
+				channel: 'MIRXA_EXT_REQUEST',
 				id,
 				action: 'execute',
 				payload: {
@@ -114,7 +115,7 @@ export default defineUnlistedScript(() => {
 
 		window.postMessage(
 			{
-				channel: 'PAGE_AGENT_EXT_REQUEST',
+				channel: 'MIRXA_EXT_REQUEST',
 				id,
 				action: 'stop',
 			},
@@ -122,8 +123,8 @@ export default defineUnlistedScript(() => {
 		)
 	}
 
-	;(window as any).PAGE_AGENT_EXT_VERSION = __VERSION__
-	;(window as any).PAGE_AGENT_EXT = {
+	;(window as any).MIRXA_EXT_VERSION = __VERSION__
+	;(window as any).MIRXA_EXT = {
 		version: __VERSION__,
 		execute,
 		stop,

@@ -54,15 +54,13 @@ export class HubBridge {
 		return new Promise((resolve, reject) => {
 			this.#httpServer.on('error', (/** @type {NodeJS.ErrnoException} */ err) => {
 				if (err.code === 'EADDRINUSE') {
-					reject(
-						new Error(`Port ${this.port} is in use. Another Page Agent MCP server may be running.`)
-					)
+					reject(new Error(`Port ${this.port} is in use. Another Mirxa MCP server may be running.`))
 				} else {
 					reject(err)
 				}
 			})
 			this.#httpServer.listen(this.port, LOOPBACK_HOST, () => {
-				console.error(`[page-agent-mcp] HTTP + WS on http://${LOOPBACK_HOST}:${this.port}`)
+				console.error(`[mirxa-mcp] HTTP + WS on http://${LOOPBACK_HOST}:${this.port}`)
 				resolve()
 			})
 		})
@@ -107,7 +105,7 @@ export class HubBridge {
 		}
 
 		this.#hub = ws
-		console.error('[page-agent-mcp] Hub connected')
+		console.error('[mirxa-mcp] Hub connected')
 
 		ws.on('message', (/** @type {Buffer} */ rawData) => {
 			/** @type {{ type: string, success?: boolean, data?: string, message?: string }} */
@@ -128,7 +126,7 @@ export class HubBridge {
 		})
 
 		ws.on('close', () => {
-			console.error('[page-agent-mcp] Hub disconnected')
+			console.error('[mirxa-mcp] Hub disconnected')
 			if (this.#hub === ws) this.#hub = null
 			if (this.#pendingTask) {
 				this.#pendingTask.reject(new Error('Hub disconnected while task was running'))

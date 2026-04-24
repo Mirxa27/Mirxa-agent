@@ -138,7 +138,7 @@ export default function App() {
 			<header className="flex items-center justify-between border-b px-3 py-2">
 				<div className="flex items-center gap-2">
 					<Logo className="size-5" />
-					<span className="text-sm font-medium">Page Agent Ext</span>
+					<span className="text-sm font-medium">Mirxa</span>
 				</div>
 				<div className="flex items-center gap-1">
 					<StatusDot status={status} />
@@ -200,6 +200,7 @@ export default function App() {
 						onChange={(e) => setInputValue(e.target.value)}
 						onKeyDown={handleKeyDown}
 						disabled={isRunning}
+						maxLength={2000}
 						className="text-xs pr-12 min-h-10"
 					/>
 					<InputGroupAddon align="inline-end" className="absolute bottom-0 right-0">
@@ -229,6 +230,11 @@ export default function App() {
 						)}
 					</InputGroupAddon>
 				</InputGroup>
+				{inputValue.length > 1800 && (
+					<p className="text-[10px] text-muted-foreground text-right mt-1">
+						{inputValue.length}/2000
+					</p>
+				)}
 			</footer>
 		</div>
 	)

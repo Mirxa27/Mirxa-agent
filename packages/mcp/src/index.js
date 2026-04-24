@@ -2,10 +2,22 @@
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js'
 import { exec } from 'node:child_process'
+import { readFileSync } from 'node:fs'
 import { platform } from 'node:os'
+import { fileURLToPath } from 'node:url'
 import * as z from 'zod/v4'
 
 import { HubBridge } from './hub-bridge.js'
+
+let pkg
+try {
+	pkg = JSON.parse(
+		readFileSync(fileURLToPath(new URL('../package.json', import.meta.url)), 'utf-8')
+	)
+} catch (err) {
+	console.error('[mirxa-mcp] Failed to read package.json for version info:', err)
+	pkg = { version: '0.0.0' }
+}
 
 const env = process.env
 const port = parseInt(env.PORT || '38401')
@@ -25,12 +37,12 @@ await hub.start()
 const url = `http://localhost:${port}`
 const cmd = platform() === 'darwin' ? 'open' : platform() === 'win32' ? 'start ""' : 'xdg-open'
 exec(`${cmd} "${url}"`, (err) => {
-	if (err) console.error(`[page-agent-mcp] Could not open browser: ${err.message}`)
+	if (err) console.error(`[mirxa-mcp] Could not open browser: ${err.message}`)
 })
 
 // --- MCP server (stdio) ---
 
-const mcpServer = new McpServer({ name: 'page-agent', version: '1.5.8' })
+const mcpServer = new McpServer({ name: 'mirxa', version: pkg.version })
 
 mcpServer.registerTool(
 	'execute_task',
@@ -70,7 +82,7 @@ mcpServer.registerTool(
 mcpServer.registerTool(
 	'get_status',
 	{
-		description: 'Check the current status of the Page Agent hub.',
+		description: 'Check the current status of the Mirxa hub.',
 	},
 	async () => ({
 		content: [
@@ -95,4 +107,4 @@ mcpServer.registerTool(
 
 const transport = new StdioServerTransport()
 await mcpServer.connect(transport)
-console.error('[page-agent-mcp] MCP server ready (stdio)')
+console.error('[mirxa-mcp] MCP server ready (stdio)')

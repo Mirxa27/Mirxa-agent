@@ -10,11 +10,11 @@ export default defineBackground(() => {
 
 	// generate user auth token
 
-	chrome.storage.local.get('PageAgentExtUserAuthToken').then((result) => {
-		if (result.PageAgentExtUserAuthToken) return
+	chrome.storage.local.get('MirxaExtUserAuthToken').then((result) => {
+		if (result.MirxaExtUserAuthToken) return
 
 		const userAuthToken = crypto.randomUUID()
-		chrome.storage.local.set({ PageAgentExtUserAuthToken: userAuthToken })
+		chrome.storage.local.set({ MirxaExtUserAuthToken: userAuthToken })
 	})
 
 	// message proxy

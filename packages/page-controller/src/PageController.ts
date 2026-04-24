@@ -8,8 +8,11 @@
  */
 import {
 	clickElement,
+	dispatchKeys,
 	getElementByIndex,
+	goBackHistory,
 	inputTextElement,
+	navigateToUrl,
 	scrollHorizontally,
 	scrollVertically,
 	selectOptionElement,
@@ -372,6 +375,44 @@ export class PageController extends EventTarget {
 				success: false,
 				message: `❌ Failed to scroll horizontally: ${error}`,
 			}
+		}
+	}
+
+	/**
+	 * Navigate the current tab to a URL
+	 */
+	async navigateTo(url: string): Promise<ActionResult> {
+		try {
+			new URL(url) // throws if url is not a valid absolute URL
+			await navigateToUrl(url)
+			return { success: true, message: `✅ Navigating to ${url}` }
+		} catch (error) {
+			return { success: false, message: `❌ Failed to navigate: ${error}` }
+		}
+	}
+
+	/**
+	 * Navigate back in the browser history
+	 */
+	async goBack(): Promise<ActionResult> {
+		try {
+			await goBackHistory()
+			return { success: true, message: `✅ Navigating back` }
+		} catch (error) {
+			return { success: false, message: `❌ Failed to go back: ${error}` }
+		}
+	}
+
+	/**
+	 * Dispatch keyboard key events to the currently focused element.
+	 * Key names follow the KeyboardEvent.key spec (e.g. "Enter", "Escape", "Tab", "ArrowDown").
+	 */
+	async sendKeys(keys: string[]): Promise<ActionResult> {
+		try {
+			await dispatchKeys(keys)
+			return { success: true, message: `✅ Sent keys: ${keys.join(', ')}` }
+		} catch (error) {
+			return { success: false, message: `❌ Failed to send keys: ${error}` }
 		}
 	}
 

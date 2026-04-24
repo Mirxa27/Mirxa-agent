@@ -34,13 +34,13 @@ export default function App() {
 			{/* Left — Protocol docs */}
 			<aside className="w-80 shrink-0 border-r flex flex-col bg-muted/20">
 				<a
-					href="https://alibaba.github.io/page-agent/"
+					href="https://github.com/Mirxa27/Mirxa-agent"
 					target="_blank"
 					rel="noopener noreferrer"
 					className="flex items-center gap-2 px-5 h-12 border-b hover:bg-muted/30 transition-colors"
 				>
 					<Logo className="size-5" />
-					<span className="text-sm font-semibold tracking-tight">Page Agent Hub</span>
+					<span className="text-sm font-semibold tracking-tight">Mirxa Hub</span>
 					<span className="text-[9px] font-medium uppercase tracking-wider text-amber-600 bg-amber-500/10 border border-amber-500/30 rounded px-1.5 py-0.5">
 						Beta
 					</span>
@@ -49,13 +49,13 @@ export default function App() {
 				<div className="flex-1 overflow-y-auto px-5 py-4 space-y-6">
 					<div className="text-xs text-muted-foreground leading-relaxed space-y-2">
 						<p>
-							Page Agent Hub lets local apps (e.g. MCP servers) control the Page Agent extension via
+							Mirxa Hub lets local apps (e.g. MCP servers) control the Mirxa extension via
 							WebSocket.
 						</p>
 						<p>
 							Check out the official{' '}
 							<a
-								href="https://github.com/alibaba/page-agent/tree/main/packages/mcp"
+								href="https://github.com/Mirxa27/Mirxa-agent/tree/main/packages/mcp"
 								target="_blank"
 								rel="noopener noreferrer"
 								className="underline hover:text-foreground"
@@ -73,17 +73,6 @@ export default function App() {
 
 				<div className="border-t px-5 py-3 text-[10px] text-muted-foreground/60 flex items-center justify-between">
 					<span className="font-mono">v{__VERSION__}</span>
-					<span>
-						Built with ♥️ by{' '}
-						<a
-							href="https://github.com/gaomeng1900"
-							target="_blank"
-							rel="noopener noreferrer"
-							className="underline hover:text-foreground"
-						>
-							@Simon
-						</a>
-					</span>
 				</div>
 			</aside>
 

@@ -13,19 +13,19 @@ export default defineContentScript({
 		initPageController()
 
 		// if auth token matches, expose agent to page
-		chrome.storage.local.get('PageAgentExtUserAuthToken').then((result) => {
+		chrome.storage.local.get('MirxaExtUserAuthToken').then((result) => {
 			// extension side token.
 			// @note this is isolated world. it is safe to assume user script cannot access it
-			const extToken = result.PageAgentExtUserAuthToken
+			const extToken = result.MirxaExtUserAuthToken
 			if (!extToken) return
 
 			// page side token
-			const pageToken = localStorage.getItem('PageAgentExtUserAuthToken')
+			const pageToken = localStorage.getItem('MirxaExtUserAuthToken')
 			if (!pageToken) return
 
 			if (pageToken !== extToken) return
 
-			console.log('[PageAgentExt]: Auth tokens match. Exposing agent to page.')
+			console.log('[MirxaExt]: Auth tokens match. Exposing agent to page.')
 
 			// add isolated world script
 			exposeAgentToPage().then(
@@ -38,7 +38,7 @@ export default defineContentScript({
 
 async function exposeAgentToPage() {
 	const { MultiPageAgent } = await import('@/agent/MultiPageAgent')
-	console.log('[PageAgentExt]: MultiPageAgent loaded')
+	console.log('[MirxaExt]: MultiPageAgent loaded')
 
 	/**
 	 * singleton MultiPageAgent to handle requests from the page
@@ -50,7 +50,7 @@ async function exposeAgentToPage() {
 
 		const data = e.data
 		if (typeof data !== 'object' || data === null) return
-		if (data.channel !== 'PAGE_AGENT_EXT_REQUEST') return
+		if (data.channel !== 'MIRXA_EXT_REQUEST') return
 
 		const { action, payload, id } = data
 
@@ -60,7 +60,7 @@ async function exposeAgentToPage() {
 				if (multiPageAgent && multiPageAgent.status === 'running') {
 					window.postMessage(
 						{
-							channel: 'PAGE_AGENT_EXT_RESPONSE',
+							channel: 'MIRXA_EXT_RESPONSE',
 							id,
 							action: 'execute_result',
 							error: 'Agent is already running a task. Please wait until it finishes.',
@@ -88,7 +88,7 @@ async function exposeAgentToPage() {
 						if (!multiPageAgent) return
 						window.postMessage(
 							{
-								channel: 'PAGE_AGENT_EXT_RESPONSE',
+								channel: 'MIRXA_EXT_RESPONSE',
 								id,
 								action: 'status_change_event',
 								payload: multiPageAgent.status,
@@ -101,7 +101,7 @@ async function exposeAgentToPage() {
 						if (!multiPageAgent) return
 						window.postMessage(
 							{
-								channel: 'PAGE_AGENT_EXT_RESPONSE',
+								channel: 'MIRXA_EXT_RESPONSE',
 								id,
 								action: 'activity_event',
 								payload: (event as CustomEvent).detail,
@@ -114,7 +114,7 @@ async function exposeAgentToPage() {
 						if (!multiPageAgent) return
 						window.postMessage(
 							{
-								channel: 'PAGE_AGENT_EXT_RESPONSE',
+								channel: 'MIRXA_EXT_RESPONSE',
 								id,
 								action: 'history_change_event',
 								payload: multiPageAgent.history,
@@ -129,7 +129,7 @@ async function exposeAgentToPage() {
 
 					window.postMessage(
 						{
-							channel: 'PAGE_AGENT_EXT_RESPONSE',
+							channel: 'MIRXA_EXT_RESPONSE',
 							id,
 							action: 'execute_result',
 							payload: result,
@@ -139,7 +139,7 @@ async function exposeAgentToPage() {
 				} catch (error) {
 					window.postMessage(
 						{
-							channel: 'PAGE_AGENT_EXT_RESPONSE',
+							channel: 'MIRXA_EXT_RESPONSE',
 							id,
 							action: 'execute_result',
 							error: (error as Error).message,

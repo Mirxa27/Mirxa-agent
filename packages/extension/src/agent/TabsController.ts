@@ -221,7 +221,7 @@ export class TabsController {
 			payload: {
 				groupId: this.tabGroupId,
 				properties: {
-					title: `PageAgent(${this.task})`,
+					title: `Mirxa(${this.task.slice(0, 30)})`,
 					color: randomColor(),
 					collapsed: false,
 				},
@@ -287,7 +287,12 @@ export class TabsController {
 		if (tab.status === 'complete') return
 
 		debug('waitUntilTabLoaded', tabId)
-		await waitUntil(() => tab.status === 'complete', 4_000)
+		const loaded = await waitUntil(() => tab.status === 'complete', 4_000)
+		if (!loaded) {
+			console.warn(
+				`[TabsController] Tab ${tabId} did not finish loading within 4 s — proceeding anyway`
+			)
+		}
 	}
 
 	/**

@@ -184,7 +184,54 @@ tools.set(
 	})
 )
 
-// @todo send_keys
+tools.set(
+	'go_to_url',
+	tool({
+		description:
+			'Navigate the current tab to a URL. The URL must be a valid absolute URL including protocol (e.g. https://example.com). Use open_new_tab if you want to keep the current page open.',
+		inputSchema: z.object({
+			url: z
+				.string()
+				.describe('Absolute URL to navigate to, including protocol (e.g. https://example.com)'),
+		}),
+		execute: async function (this: PageAgentCore, input) {
+			const result = await this.pageController.navigateTo(input.url)
+			return result.message
+		},
+	})
+)
+
+tools.set(
+	'go_back',
+	tool({
+		description:
+			'Navigate the current tab back to the previous page in browser history. Use when you need to undo a navigation or return from an error page.',
+		inputSchema: z.object({}),
+		execute: async function (this: PageAgentCore, _input) {
+			const result = await this.pageController.goBack()
+			return result.message
+		},
+	})
+)
+
+tools.set(
+	'send_keys',
+	tool({
+		description:
+			'Send keyboard key(s) to the currently focused element. Use for pressing Escape to close a modal or dropdown, Tab to move focus, Enter to submit a form, or arrow keys (ArrowUp, ArrowDown, ArrowLeft, ArrowRight) to navigate menus. Key names follow the KeyboardEvent.key spec.',
+		inputSchema: z.object({
+			keys: z
+				.array(z.string())
+				.describe(
+					'Keys to dispatch in sequence, e.g. ["Escape"], ["Tab"], ["Enter"], ["ArrowDown", "ArrowDown", "Enter"]'
+				),
+		}),
+		execute: async function (this: PageAgentCore, input) {
+			const result = await this.pageController.sendKeys(input.keys)
+			return result.message
+		},
+	})
+)
+
 // @todo upload_file
-// @todo go_back
 // @todo extract_structured_data

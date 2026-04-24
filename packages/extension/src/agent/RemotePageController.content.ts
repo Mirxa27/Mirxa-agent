@@ -82,6 +82,9 @@ export function initPageController() {
 			case 'scroll':
 			case 'scroll_horizontally':
 			case 'execute_javascript':
+			case 'navigate_to':
+			case 'go_back':
+			case 'send_keys':
 				pc[methodName](...(payload || []))
 					.then((result: any) => sendResponse(result))
 					.catch((error: any) =>
@@ -128,6 +131,12 @@ function getMethodName(action: string): string {
 			return 'scrollHorizontally' as const
 		case 'execute_javascript':
 			return 'executeJavascript' as const
+		case 'navigate_to':
+			return 'navigateTo' as const
+		case 'go_back':
+			return 'goBack' as const
+		case 'send_keys':
+			return 'sendKeys' as const
 
 		default:
 			return action
