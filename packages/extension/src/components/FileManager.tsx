@@ -7,6 +7,7 @@ import { type FileRecord, deleteFile, listFiles, saveFile } from '@/lib/db'
 export function FileManager() {
 	const [files, setFiles] = useState<FileRecord[]>([])
 	const [uploading, setUploading] = useState(false)
+	const [uploadError, setUploadError] = useState<string | null>(null)
 	const inputRef = useRef<HTMLInputElement>(null)
 
 	const loadFiles = async () => {
@@ -22,10 +23,19 @@ export function FileManager() {
 		const selectedFiles = Array.from(e.target.files ?? [])
 		if (!selectedFiles.length) return
 		setUploading(true)
+		setUploadError(null)
+		const failed: string[] = []
 		try {
 			for (const file of selectedFiles) {
-				const content = await readFileAsBase64(file)
-				await saveFile({ name: file.name, type: file.type, size: file.size, content })
+				try {
+					const content = await readFileAsBase64(file)
+					await saveFile({ name: file.name, type: file.type, size: file.size, content })
+				} catch {
+					failed.push(file.name)
+				}
+			}
+			if (failed.length > 0) {
+				setUploadError(`Failed to upload: ${failed.join(', ')}`)
 			}
 			await loadFiles()
 		} finally {
@@ -55,6 +65,7 @@ export function FileManager() {
 				</Button>
 				<input ref={inputRef} type="file" multiple className="hidden" onChange={handleUpload} />
 			</div>
+			{uploadError && <p className="text-[10px] text-destructive">{uploadError}</p>}
 			{files.length === 0 ? (
 				<p className="text-[10px] text-muted-foreground">No files uploaded yet.</p>
 			) : (
@@ -95,7 +106,15 @@ function formatBytes(bytes: number): string {
 function readFileAsBase64(file: File): Promise<string> {
 	return new Promise((resolve, reject) => {
 		const reader = new FileReader()
-		reader.onload = () => resolve((reader.result as string).split(',')[1])
+		reader.onload = () => {
+			const result = reader.result as string
+			const commaIndex = result.indexOf(',')
+			if (commaIndex === -1) {
+				reject(new Error('Unexpected FileReader result format'))
+				return
+			}
+			resolve(result.slice(commaIndex + 1))
+		}
 		reader.onerror = reject
 		reader.readAsDataURL(file)
 	})
