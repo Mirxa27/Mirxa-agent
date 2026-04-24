@@ -27,6 +27,9 @@ interface ConfigPanelProps {
 	onClose: () => void
 }
 
+/** Delay before auto-fetching models after the user stops typing (ms) */
+const MODEL_FETCH_DEBOUNCE_MS = 1200
+
 export function ConfigPanel({ config, onSave, onClose }: ConfigPanelProps) {
 	const [baseURL, setBaseURL] = useState(config?.baseURL || DEMO_BASE_URL)
 	const [model, setModel] = useState(config?.model || DEMO_MODEL)
@@ -105,7 +108,12 @@ export function ConfigPanel({ config, onSave, onClose }: ConfigPanelProps) {
 			setIsFetchingModels(true)
 			setModelFetchError(null)
 			try {
-				const url = new URL('models', baseURL.replace(/\/$/, '') + '/').toString()
+				let url: string
+				try {
+					url = new URL('models', baseURL.replace(/\/$/, '') + '/').toString()
+				} catch {
+					throw new Error(`Invalid Base URL: "${baseURL}" is not a valid URL`)
+				}
 				const headers: Record<string, string> = {}
 				if (apiKey) headers.Authorization = `Bearer ${apiKey}`
 				const res = await fetch(url, { headers })
@@ -129,7 +137,7 @@ export function ConfigPanel({ config, onSave, onClose }: ConfigPanelProps) {
 			} finally {
 				setIsFetchingModels(false)
 			}
-		}, 1200)
+		}, MODEL_FETCH_DEBOUNCE_MS)
 
 		return () => clearTimeout(timer)
 	}, [baseURL, apiKey])

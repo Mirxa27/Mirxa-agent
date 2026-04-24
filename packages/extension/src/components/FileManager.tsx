@@ -108,7 +108,11 @@ function readFileAsBase64(file: File): Promise<string> {
 	return new Promise((resolve, reject) => {
 		const reader = new FileReader()
 		reader.onload = () => {
-			const result = reader.result as string
+			if (typeof reader.result !== 'string') {
+				reject(new Error('FileReader returned unexpected result type'))
+				return
+			}
+			const result = reader.result
 			const commaIndex = result.indexOf(',')
 			if (commaIndex === -1) {
 				reject(

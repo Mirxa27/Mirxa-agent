@@ -23,8 +23,7 @@ function isTextFile(name: string, mime: string): boolean {
 
 function base64ToText(base64: string): string {
 	const binaryStr = atob(base64)
-	const bytes = new Uint8Array(binaryStr.length)
-	for (let i = 0; i < binaryStr.length; i++) bytes[i] = binaryStr.charCodeAt(i)
+	const bytes = Uint8Array.from(binaryStr, (c) => c.charCodeAt(0))
 	return new TextDecoder('utf-8').decode(bytes)
 }
 
@@ -34,7 +33,7 @@ export function createFileTools() {
 			description:
 				'List all files the user has uploaded for agent use. Returns file names, types, and sizes. Call this first to discover available files before reading them.',
 			inputSchema: z.object({}),
-			execute: async (_input: unknown): Promise<string> => {
+			execute: async (): Promise<string> => {
 				const files = await listFiles()
 				if (files.length === 0) return 'No files have been uploaded yet.'
 				return (
