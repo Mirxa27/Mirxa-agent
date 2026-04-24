@@ -1,7 +1,7 @@
 import type { HistoricalEvent } from '@page-agent/core'
 import { type DBSchema, type IDBPDatabase, openDB } from 'idb'
 
-const DB_NAME = 'page-agent-ext'
+const DB_NAME = 'mirxa-ext'
 const DB_VERSION = 2
 
 export interface SessionRecord {

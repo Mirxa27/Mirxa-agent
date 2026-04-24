@@ -49,7 +49,7 @@ export default defineUnlistedScript(() => {
 
 				const data = e.data
 				if (typeof data !== 'object' || data === null) return
-				if (data.channel !== 'PAGE_AGENT_EXT_RESPONSE') return
+				if (data.channel !== 'MIRXA_EXT_RESPONSE') return
 				if (data.id !== id) return
 
 				// events
@@ -88,7 +88,7 @@ export default defineUnlistedScript(() => {
 
 		window.postMessage(
 			{
-				channel: 'PAGE_AGENT_EXT_REQUEST',
+				channel: 'MIRXA_EXT_REQUEST',
 				id,
 				action: 'execute',
 				payload: {
@@ -114,7 +114,7 @@ export default defineUnlistedScript(() => {
 
 		window.postMessage(
 			{
-				channel: 'PAGE_AGENT_EXT_REQUEST',
+				channel: 'MIRXA_EXT_REQUEST',
 				id,
 				action: 'stop',
 			},
@@ -122,8 +122,8 @@ export default defineUnlistedScript(() => {
 		)
 	}
 
-	;(window as any).PAGE_AGENT_EXT_VERSION = __VERSION__
-	;(window as any).PAGE_AGENT_EXT = {
+	;(window as any).MIRXA_EXT_VERSION = __VERSION__
+	;(window as any).MIRXA_EXT = {
 		version: __VERSION__,
 		execute,
 		stop,

@@ -30,7 +30,7 @@ interface ConfigPanelProps {
 export function ConfigPanel({ config, onSave, onClose }: ConfigPanelProps) {
 	const [baseURL, setBaseURL] = useState(config?.baseURL || DEMO_BASE_URL)
 	const [model, setModel] = useState(config?.model || DEMO_MODEL)
-	const [apiKey, setApiKey] = useState(config?.apiKey)
+	const [apiKey, setApiKey] = useState(config?.apiKey ?? '')
 	const [language, setLanguage] = useState<LanguagePreference>(config?.language)
 	const [maxSteps, setMaxSteps] = useState(config?.maxSteps)
 	const [systemInstruction, setSystemInstruction] = useState(config?.systemInstruction ?? '')
@@ -60,7 +60,7 @@ export function ConfigPanel({ config, onSave, onClose }: ConfigPanelProps) {
 		setPrevConfig(config)
 		setBaseURL(config?.baseURL || DEMO_BASE_URL)
 		setModel(config?.model || DEMO_MODEL)
-		setApiKey(config?.apiKey)
+		setApiKey(config?.apiKey ?? '')
 		setLanguage(config?.language)
 		setMaxSteps(config?.maxSteps)
 		setSystemInstruction(config?.systemInstruction ?? '')
@@ -74,8 +74,8 @@ export function ConfigPanel({ config, onSave, onClose }: ConfigPanelProps) {
 		let interval: NodeJS.Timeout | null = null
 
 		const fetchToken = async () => {
-			const result = await chrome.storage.local.get('PageAgentExtUserAuthToken')
-			const token = result.PageAgentExtUserAuthToken
+			const result = await chrome.storage.local.get('MirxaExtUserAuthToken')
+			const token = result.MirxaExtUserAuthToken
 			if (typeof token === 'string' && token) {
 				setUserAuthToken(token)
 				if (interval) {
